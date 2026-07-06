@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zelda Song Ranker</title>
-    <!-- Cargamos Tailwind para los estilos rápidos y bonitos -->
+    <!-- Cargamos Tailwind para los estilos -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Cargamos FontAwesome para los íconos (Botón de Play, Espadas, etc) -->
+    <!-- Cargamos FontAwesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -34,9 +34,11 @@
         body {
             background-color: #121212;
             color: white;
-            /* Patrón de fondo sutil estilo piedra/tecnología antigua */
-            background-image: radial-gradient(#2d3035 1px, transparent 1px);
-            background-size: 20px 20px;
+            /* Aquí ponemos tu imagen. El linear-gradient la oscurece un poco para que el texto resalte */
+            background-image: linear-gradient(rgba(28, 28, 30, 0.7), rgba(28, 28, 30, 0.9)), url('Simbolos Zelda.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .card-hover:hover {
@@ -45,33 +47,47 @@
             border-color: #42f5f5;
         }
 
-        .btn-sheikah {
-            transition: all 0.2s ease;
-        }
-        
         .btn-sheikah:hover {
             box-shadow: 0 0 15px rgba(230, 200, 110, 0.5);
             transform: scale(1.05);
+        }
+        
+        /* Animación para cuando se abre el modal del ranking */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-anim {
+            animation: fadeIn 0.2s ease-out forwards;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
 
-    <header class="bg-sheikah-dark border-b-2 border-sheikah-gold p-4 shadow-lg text-center relative">
-        <h1 class="text-3xl font-extrabold text-sheikah-gold tracking-widest uppercase">
-            <i class="fa-solid fa-triforce text-yellow-500 mr-2"></i> Zelda Song Ranker
-        </h1>
-        <p class="text-gray-400 text-sm mt-1">Descubre tu top definitivo de la saga</p>
+    <header class="bg-sheikah-dark border-b-2 border-sheikah-gold p-4 shadow-lg text-center relative flex justify-between items-center px-4 sm:px-8">
+        <div class="hidden sm:block w-32"></div> <!-- Espaciador invisible -->
         
-        <!-- Simulador de progreso de votación -->
-        <div class="absolute bottom-0 left-0 h-1 bg-sheikah-blue" style="width: 15%;"></div>
+        <div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-sheikah-gold tracking-widest uppercase">
+                <i class="fa-solid fa-triforce text-yellow-500 mr-2"></i> Zelda Ranker
+            </h1>
+            <p class="text-gray-400 text-sm mt-1">Elige tu favorita para subirla en el Top</p>
+        </div>
+        
+        <!-- Botón para ver el Ranking -->
+        <button onclick="abrirRanking()" class="w-32 bg-gray-800 hover:bg-sheikah-gold hover:text-black text-sheikah-gold border border-sheikah-gold px-4 py-2 rounded-lg font-bold transition-colors flex items-center justify-center gap-2">
+            <i class="fa-solid fa-trophy"></i> <span class="hidden sm:inline">Ranking</span>
+        </button>
+
+        <!-- Contador de votos totales (Barra de progreso) -->
+        <div class="absolute bottom-0 left-0 h-1 bg-sheikah-blue" style="width: 100%;"></div>
     </header>
 
     <main class="flex-grow flex flex-col items-center justify-center p-4 sm:p-8">
         
-        <div class="text-center mb-8">
-            <h2 class="text-xl font-semibold text-sheikah-blue mb-2">¿Qué canción es mejor?</h2>
-            <p class="text-sm text-gray-400">Escucha los avances y elige tu favorita.</p>
+        <div class="text-center mb-6">
+            <h2 class="text-xl font-semibold text-sheikah-blue mb-1">Batalla actual</h2>
+            <p class="text-sm text-gray-400">Votos totales: <span id="contador-votos" class="text-white font-bold">0</span></p>
         </div>
 
         <!-- Contenedor de las dos opciones A y B -->
@@ -80,10 +96,10 @@
             <!-- TARJETA A -->
             <div id="card-a" class="flex-1 bg-sheikah-slate rounded-xl border-2 border-gray-600 p-6 flex flex-col items-center cursor-pointer transition-all duration-300 card-hover w-full md:w-1/2" onclick="votar('A')">
                 <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group">
-                    <img id="img-a" src="https://placehold.co/600x400/1c1c1e/e6c86e?text=Zelda+OoT" alt="Portada A" class="w-full h-full object-cover">
+                    <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
                     <!-- Botón Play superpuesto -->
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform" onclick="event.stopPropagation(); alert('¡Aquí sonaría la canción A!');">
+                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform" onclick="event.stopPropagation(); alert('Aquí sonaría la canción A');">
                             <i class="fa-solid fa-play ml-1"></i>
                         </button>
                     </div>
@@ -91,6 +107,7 @@
                 <h3 id="title-a" class="text-2xl font-bold text-white text-center mb-1">Cargando...</h3>
                 <p id="game-a" class="text-sheikah-gold font-semibold text-sm uppercase tracking-wide">...</p>
                 <span id="cat-a" class="mt-3 px-3 py-1 bg-gray-800 rounded-full text-xs text-gray-300">...</span>
+                <p class="text-xs text-gray-500 mt-4">Puntos actuales: <span id="pts-a">1500</span></p>
             </div>
 
             <!-- Separador VS -->
@@ -103,10 +120,10 @@
             <!-- TARJETA B -->
             <div id="card-b" class="flex-1 bg-sheikah-slate rounded-xl border-2 border-gray-600 p-6 flex flex-col items-center cursor-pointer transition-all duration-300 card-hover w-full md:w-1/2" onclick="votar('B')">
                 <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group">
-                    <img id="img-b" src="https://placehold.co/600x400/1c1c1e/42f5f5?text=Zelda+WW" alt="Portada B" class="w-full h-full object-cover">
+                    <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
                     <!-- Botón Play superpuesto -->
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform" onclick="event.stopPropagation(); alert('¡Aquí sonaría la canción B!');">
+                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform" onclick="event.stopPropagation(); alert('Aquí sonaría la canción B');">
                             <i class="fa-solid fa-play ml-1"></i>
                         </button>
                     </div>
@@ -114,91 +131,198 @@
                 <h3 id="title-b" class="text-2xl font-bold text-white text-center mb-1">Cargando...</h3>
                 <p id="game-b" class="text-sheikah-gold font-semibold text-sm uppercase tracking-wide">...</p>
                 <span id="cat-b" class="mt-3 px-3 py-1 bg-gray-800 rounded-full text-xs text-gray-300">...</span>
+                <p class="text-xs text-gray-500 mt-4">Puntos actuales: <span id="pts-b">1500</span></p>
             </div>
         </div>
 
         <div class="mt-10 flex gap-4">
             <button class="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold transition-colors flex items-center gap-2" onclick="cargarNuevasCanciones()">
-                <i class="fa-solid fa-forward-step"></i> Saltar / Empate
+                <i class="fa-solid fa-forward-step"></i> Saltar
             </button>
-            <button class="px-6 py-3 bg-transparent border-2 border-sheikah-gold text-sheikah-gold hover:bg-sheikah-gold hover:text-black rounded-lg font-semibold transition-colors flex items-center gap-2">
-                <i class="fa-solid fa-rotate-left"></i> Deshacer
+            <button onclick="reiniciarDatos()" class="px-6 py-3 bg-transparent border-2 border-red-900 text-red-500 hover:bg-red-900 hover:text-white rounded-lg font-semibold transition-colors flex items-center gap-2">
+                <i class="fa-solid fa-trash"></i> Borrar Progreso
             </button>
         </div>
     </main>
 
-    <footer class="text-center p-4 text-gray-500 text-xs">
-        <p>Proyecto Fan. Las canciones e imágenes pertenecen a Nintendo.</p>
-    </footer>
+    <!-- MODAL DE RANKING (Oculto por defecto) -->
+    <div id="modal-ranking" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-sheikah-slate border-2 border-sheikah-gold rounded-xl w-full max-w-3xl max-h-[85vh] flex flex-col modal-anim shadow-[0_0_30px_rgba(230,200,110,0.2)]">
+            
+            <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-sheikah-dark rounded-t-xl">
+                <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-list-ol text-sheikah-gold mr-2"></i> Tu Top de Canciones</h2>
+                <button onclick="cerrarRanking()" class="text-gray-400 hover:text-white text-3xl font-bold leading-none">&times;</button>
+            </div>
+            
+            <div class="p-4 overflow-y-auto flex-grow bg-[#1a1a1c]" id="lista-ranking">
+                <!-- Aquí se inyectarán las canciones ordenadas -->
+            </div>
+            
+            <div class="p-4 border-t border-gray-700 text-center bg-sheikah-dark rounded-b-xl">
+                <button onclick="cerrarRanking()" class="px-6 py-2 bg-sheikah-blue text-sheikah-dark font-bold rounded hover:bg-white transition-colors">Volver a votar</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Simulamos nuestra base de datos JSON directamente en el código para el prototipo
-        const canciones = [
-            { id: "oot-001", titulo: "Gerudo Valley", juego: "Ocarina of Time", categoria: "Overworld", color: "e6c86e" },
-            { id: "tww-001", titulo: "Dragon Roost Island", juego: "The Wind Waker", categoria: "Isla / Pueblo", color: "42f5f5" },
-            { id: "botw-001", titulo: "Main Theme", juego: "Breath of the Wild", categoria: "Tema Principal", color: "88ccff" },
-            { id: "mm-001", titulo: "Song of Healing", juego: "Majora's Mask", categoria: "Evento / Historia", color: "cc66ff" },
-            { id: "tp-001", titulo: "Midna's Lament", juego: "Twilight Princess", categoria: "Historia / Emocional", color: "ffaa00" },
-            { id: "oot-002", titulo: "Zelda's Lullaby", juego: "Ocarina of Time", categoria: "Tema de Personaje", color: "e6c86e" },
-            { id: "tp-002", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "ffaa00" }
+        // BASE DE DATOS INICIAL
+        // Si el usuario ya votó antes, cargamos sus datos. Si no, usamos esta lista por defecto.
+        const baseDatosPorDefecto = [
+            { id: "oot-001", titulo: "Gerudo Valley", juego: "Ocarina of Time", categoria: "Overworld", color: "e6c86e", elo: 1500, partidas: 0 },
+            { id: "tww-001", titulo: "Dragon Roost Island", juego: "The Wind Waker", categoria: "Isla / Pueblo", color: "42f5f5", elo: 1500, partidas: 0 },
+            { id: "botw-001", titulo: "Main Theme", juego: "Breath of the Wild", categoria: "Tema Principal", color: "88ccff", elo: 1500, partidas: 0 },
+            { id: "mm-001", titulo: "Song of Healing", juego: "Majora's Mask", categoria: "Evento / Historia", color: "cc66ff", elo: 1500, partidas: 0 },
+            { id: "tp-001", titulo: "Midna's Lament", juego: "Twilight Princess", categoria: "Historia", color: "ffaa00", elo: 1500, partidas: 0 },
+            { id: "oot-002", titulo: "Zelda's Lullaby", juego: "Ocarina of Time", categoria: "Personaje", color: "e6c86e", elo: 1500, partidas: 0 },
+            { id: "tp-002", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "ffaa00", elo: 1500, partidas: 0 }
         ];
+
+        // Cargar datos de la memoria del navegador o usar los de defecto
+        let canciones = JSON.parse(localStorage.getItem('zeldaRankingData')) || baseDatosPorDefecto;
+        let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos')) || 0;
 
         let cancionA_actual = null;
         let cancionB_actual = null;
 
-        // Función para elegir 2 canciones distintas al azar
-        function cargarNuevasCanciones() {
-            // Clonamos la lista para no alterar la original
-            let opciones = [...canciones];
-            
-            // Elegir Canción A al azar y quitarla de la lista de opciones
-            let indiceA = Math.floor(Math.random() * opciones.length);
-            cancionA_actual = opciones[indiceA];
-            opciones.splice(indiceA, 1);
-            
-            // Elegir Canción B al azar de lo que queda
-            let indiceB = Math.floor(Math.random() * opciones.length);
-            cancionB_actual = opciones[indiceB];
+        function guardarDatos() {
+            localStorage.setItem('zeldaRankingData', JSON.stringify(canciones));
+            localStorage.setItem('zeldaRankingVotos', totalVotos);
+            document.getElementById('contador-votos').innerText = totalVotos;
+        }
 
-            // Actualizar la pantalla
+        function reiniciarDatos() {
+            if(confirm("¿Estás seguro de que quieres borrar todo tu progreso y volver a empezar?")) {
+                localStorage.removeItem('zeldaRankingData');
+                localStorage.removeItem('zeldaRankingVotos');
+                canciones = JSON.parse(JSON.stringify(baseDatosPorDefecto)); // Clonar por defecto
+                totalVotos = 0;
+                guardarDatos();
+                cargarNuevasCanciones();
+            }
+        }
+
+        function cargarNuevasCanciones() {
+            // Elegir 2 canciones al azar que no sean la misma
+            let indiceA = Math.floor(Math.random() * canciones.length);
+            let indiceB;
+            do {
+                indiceB = Math.floor(Math.random() * canciones.length);
+            } while (indiceA === indiceB);
+
+            cancionA_actual = canciones[indiceA];
+            cancionB_actual = canciones[indiceB];
+
             actualizarPantalla();
         }
 
         function actualizarPantalla() {
+            // Actualizar textos y números
+            document.getElementById('contador-votos').innerText = totalVotos;
+
             // Tarjeta A
             document.getElementById('title-a').innerText = cancionA_actual.titulo;
             document.getElementById('game-a').innerText = cancionA_actual.juego;
             document.getElementById('cat-a').innerText = cancionA_actual.categoria;
-            // Generamos una imagen de relleno con colores que varian
+            document.getElementById('pts-a').innerText = Math.round(cancionA_actual.elo);
             document.getElementById('img-a').src = `https://placehold.co/600x400/1c1c1e/${cancionA_actual.color}?text=${cancionA_actual.juego.replace(/\s/g, '+')}`;
 
             // Tarjeta B
             document.getElementById('title-b').innerText = cancionB_actual.titulo;
             document.getElementById('game-b').innerText = cancionB_actual.juego;
             document.getElementById('cat-b').innerText = cancionB_actual.categoria;
+            document.getElementById('pts-b').innerText = Math.round(cancionB_actual.elo);
             document.getElementById('img-b').src = `https://placehold.co/600x400/1c1c1e/${cancionB_actual.color}?text=${cancionB_actual.juego.replace(/\s/g, '+')}`;
         }
 
-        // Función que se ejecuta al hacer clic en una tarjeta
-        function votar(opcion) {
-            let ganadora = opcion === 'A' ? cancionA_actual.titulo : cancionB_actual.titulo;
-            // Aquí en el futuro irá la lógica de puntos, por ahora solo mostramos un mensaje y cambiamos
-            console.log(`Has votado por: ${ganadora}`);
+        function votar(opcionGana) {
+            // Sistema ELO de puntuación
+            let k = 32; // Factor de impacto de cada partida
             
-            // Agregar un pequeño efecto visual al hacer clic
-            let cardId = opcion === 'A' ? 'card-a' : 'card-b';
+            let eloA = cancionA_actual.elo;
+            let eloB = cancionB_actual.elo;
+            
+            // Probabilidad matemática de que A o B ganen
+            let probA = 1 / (1 + Math.pow(10, (eloB - eloA) / 400));
+            let probB = 1 / (1 + Math.pow(10, (eloA - eloB) / 400));
+            
+            // Actualizar puntos según quien ganó
+            if (opcionGana === 'A') {
+                cancionA_actual.elo = eloA + k * (1 - probA);
+                cancionB_actual.elo = eloB + k * (0 - probB);
+            } else {
+                cancionA_actual.elo = eloA + k * (0 - probA);
+                cancionB_actual.elo = eloB + k * (1 - probB);
+            }
+
+            // Sumar partida jugada
+            cancionA_actual.partidas++;
+            cancionB_actual.partidas++;
+            totalVotos++;
+
+            // Buscar en el array principal y actualizar
+            let indexA = canciones.findIndex(c => c.id === cancionA_actual.id);
+            let indexB = canciones.findIndex(c => c.id === cancionB_actual.id);
+            canciones[indexA] = cancionA_actual;
+            canciones[indexB] = cancionB_actual;
+
+            guardarDatos();
+
+            // Animación visual de clic
+            let cardId = opcionGana === 'A' ? 'card-a' : 'card-b';
             let card = document.getElementById(cardId);
-            card.classList.add('scale-95', 'opacity-50');
+            card.classList.add('scale-95', 'border-white');
             
             setTimeout(() => {
-                card.classList.remove('scale-95', 'opacity-50');
+                card.classList.remove('scale-95', 'border-white');
                 cargarNuevasCanciones();
-            }, 300); // Esperar un tercio de segundo antes de cambiar
+            }, 300);
         }
 
-        // Iniciar la página cargando la primera batalla
+        function abrirRanking() {
+            const modal = document.getElementById('modal-ranking');
+            const lista = document.getElementById('lista-ranking');
+            lista.innerHTML = ''; // Limpiar lista
+            
+            // Ordenar canciones de mayor a menor puntuación (elo)
+            let cancionesOrdenadas = [...canciones].sort((a, b) => b.elo - a.elo);
+            
+            // Generar HTML para cada canción en el top
+            cancionesOrdenadas.forEach((cancion, index) => {
+                let medalla = '';
+                if(index === 0) medalla = '🏆';
+                if(index === 1) medalla = '🥈';
+                if(index === 2) medalla = '🥉';
+                if(index > 2) medalla = `<span class="text-gray-500">#${index + 1}</span>`;
+
+                let html = `
+                    <div class="flex items-center justify-between p-3 border-b border-gray-800 hover:bg-gray-800 transition-colors">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 text-center text-xl font-bold">${medalla}</div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg">${cancion.titulo}</h4>
+                                <p class="text-xs text-sheikah-gold">${cancion.juego}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-sheikah-blue">${Math.round(cancion.elo)} <span class="text-xs text-gray-500">pts</span></p>
+                            <p class="text-xs text-gray-500">${cancion.partidas} batallas</p>
+                        </div>
+                    </div>
+                `;
+                lista.innerHTML += html;
+            });
+
+            modal.classList.remove('hidden');
+        }
+
+        function cerrarRanking() {
+            document.getElementById('modal-ranking').classList.add('hidden');
+        }
+
+        // Iniciar la app
         window.onload = function() {
             cargarNuevasCanciones();
+            document.getElementById('contador-votos').innerText = totalVotos;
         };
     </script>
 </body>
