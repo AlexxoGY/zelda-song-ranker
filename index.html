@@ -36,7 +36,6 @@
 </head>
 <body class="flex flex-col items-center">
 
-    <!-- Header -->
     <header class="w-full bg-sheikah-dark border-b border-sheikah p-4 sticky top-0 z-10 shadow-lg">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -55,7 +54,6 @@
         </div>
     </header>
 
-    <!-- Main Content (Arena de Batalla) -->
     <main class="w-full max-w-5xl mx-auto flex-grow flex flex-col justify-center p-4 md:p-8">
         
         <div class="text-center mb-8">
@@ -65,13 +63,11 @@
             </div>
         </div>
 
-        <!-- Tarjetas de Votación -->
         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-center justify-center w-full">
             
-            <!-- TARJETA A -->
             <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('A')">
                 <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group">
-                    <img id="img-a" src="https://placehold.co/600x400/22cc22/ffffff?text=Spirit+Tracks" alt="Portada A" class="w-full h-full object-cover">
+                    <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
                     <!-- Botón Play superpuesto -->
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform" onclick="event.stopPropagation(); togglePlay('A');">
@@ -86,15 +82,13 @@
                 </div>
             </div>
 
-            <!-- VS Badge -->
             <div class="flex-shrink-0 bg-gray-900 border-2 border-gray-700 rounded-full w-14 h-14 flex items-center justify-center font-black text-xl italic text-gray-400 z-10 -my-4 md:my-0 md:-mx-8">
                 VS
             </div>
 
-            <!-- TARJETA B -->
             <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('B')">
                 <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group">
-                    <img id="img-b" src="https://placehold.co/600x400/ffaa00/ffffff?text=Twilight+Princess" alt="Portada B" class="w-full h-full object-cover">
+                    <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
                     <!-- Botón Play superpuesto -->
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform" onclick="event.stopPropagation(); togglePlay('B');">
@@ -111,7 +105,6 @@
 
         </div>
 
-        <!-- Controles extras -->
         <div class="mt-10 flex justify-center gap-4">
             <button onclick="cargarNuevasCanciones()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-2 rounded-full border border-gray-600 transition-colors text-sm flex items-center gap-2">
                 <i class="fa-solid fa-forward-step"></i> No conozco ambas / Saltar
@@ -120,39 +113,70 @@
 
     </main>
 
-    <!-- Modal de Ranking -->
     <div id="modal-ranking" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex justify-center items-center p-4">
         <div class="bg-[#161b22] border border-sheikah rounded-xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl">
-            <!-- Header Modal -->
             <div class="p-4 border-b border-gray-800 flex justify-between items-center bg-sheikah-dark rounded-t-xl">
                 <h2 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-trophy text-yellow-500"></i> Tu Ranking Personal</h2>
                 <button onclick="cerrarRanking()" class="text-gray-400 hover:text-white transition-colors">
                     <i class="fa-solid fa-xmark text-2xl"></i>
                 </button>
             </div>
-            <!-- Lista Modal -->
             <div class="p-4 overflow-y-auto flex-grow" id="lista-ranking">
                 <!-- Los items del ranking se inyectan aquí con JS -->
             </div>
-            <!-- Footer Modal -->
             <div class="p-4 border-t border-gray-800 bg-sheikah-dark rounded-b-xl flex justify-between items-center">
                 <p class="text-xs text-gray-500">El sistema usa una puntuación estilo Elo para calcular tu top.</p>
-                <button onclick="reiniciarDatos()" class="bg-red-900 bg-opacity-50 hover:bg-opacity-100 text-red-200 px-3 py-1 rounded border border-red-800 transition-colors text-sm flex items-center gap-1">
+                <button onclick="confirmarReinicio()" class="bg-red-900 bg-opacity-50 hover:bg-opacity-100 text-red-200 px-3 py-1 rounded border border-red-800 transition-colors text-sm flex items-center gap-1">
                     <i class="fa-solid fa-trash"></i> Reiniciar Progreso
                 </button>
             </div>
         </div>
     </div>
 
+    <div id="modal-mensaje" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 z-[60] flex justify-center items-center p-4">
+        <div class="bg-[#161b22] border border-sheikah rounded-xl w-full max-w-sm flex flex-col shadow-2xl">
+            <div class="p-4 border-b border-gray-800 bg-sheikah-dark rounded-t-xl text-center">
+                <h2 id="modal-mensaje-titulo" class="text-xl font-bold text-white"><i class="fa-solid fa-circle-info text-sheikah-blue"></i> Mensaje</h2>
+            </div>
+            <div class="p-6 text-center text-gray-300" id="modal-mensaje-texto">
+                <!-- Texto dinámico -->
+            </div>
+            <div class="p-4 border-t border-gray-800 bg-sheikah-dark rounded-b-xl flex justify-center">
+                <button onclick="cerrarMensaje()" class="bg-sheikah-blue text-sheikah-dark font-bold px-6 py-2 rounded transition-colors hover:bg-white">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-confirmacion" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 z-[60] flex justify-center items-center p-4">
+        <div class="bg-[#161b22] border border-red-900 rounded-xl w-full max-w-sm flex flex-col shadow-2xl">
+            <div class="p-4 border-b border-gray-800 bg-red-900 bg-opacity-20 rounded-t-xl text-center">
+                <h2 class="text-xl font-bold text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Advertencia</h2>
+            </div>
+            <div class="p-6 text-center text-gray-300">
+                ¿Estás seguro de que quieres borrar todo tu progreso y volver a empezar?
+            </div>
+            <div class="p-4 border-t border-gray-800 bg-sheikah-dark rounded-b-xl flex justify-center gap-4">
+                <button onclick="cerrarConfirmacion()" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded transition-colors">
+                    Cancelar
+                </button>
+                <button onclick="ejecutarReinicio()" class="bg-red-800 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors">
+                    Sí, borrar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // BASE DE DATOS REAL (Tus 3 canciones)
+        // BASE DE DATOS REAL (Tus 3 canciones iniciales)
+        // Nota el color 2a9d8f para Spirit Tracks (verde azulado) y ffaa00 para Twilight Princess
         const baseDatosPorDefecto = [
-            { id: "sp-001", titulo: "File Select", juego: "Spirit Tracks", categoria: "Menú", color: "22cc22", elo: 1500, partidas: 0, archivo_audio: "canciones/sp_file_select.mp3" },
-            { id: "sp-002", titulo: "Hyrule Castle", juego: "Spirit Tracks", categoria: "Castillo", color: "22cc22", elo: 1500, partidas: 0, archivo_audio: "canciones/sp_hyrule_castle.mp3" },
+            { id: "sp-001", titulo: "File Select", juego: "Spirit Tracks", categoria: "Menú", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/sp_file_select.mp3" },
+            { id: "sp-002", titulo: "Hyrule Castle", juego: "Spirit Tracks", categoria: "Castillo", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/sp_hyrule_castle.mp3" },
             { id: "tp-001", titulo: "Hyrule Field (Orchestra)", juego: "Twilight Princess", categoria: "Overworld", color: "ffaa00", elo: 1500, partidas: 0, archivo_audio: "canciones/tp_hyrule_field_orchestra.mp3" }
         ];
 
-        // Cargar datos de la memoria del navegador o usar los de defecto
         let canciones = JSON.parse(localStorage.getItem('zeldaRankingData')) || baseDatosPorDefecto;
         
         // Actualizador de rutas (Evita problemas si agregamos canciones nuevas al código después)
@@ -170,11 +194,9 @@
         });
 
         let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos')) || 0;
-
         let cancionA_actual = null;
         let cancionB_actual = null;
 
-        // Variables del Reproductor de Música
         let reproductorActual = new Audio();
         let cancionSonando = null;
 
@@ -203,7 +225,7 @@
             if (cancionElegida.archivo_audio) {
                 reproductorActual.src = cancionElegida.archivo_audio;
                 reproductorActual.play().catch(e => {
-                    alert("Error: No se encontró el audio. Verifica que " + cancionElegida.archivo_audio + " esté subido en GitHub.");
+                    mostrarMensaje("Falta Audio", "No se encontró el audio. Verifica que " + cancionElegida.archivo_audio + " esté subido a tu GitHub.");
                 });
                 
                 cancionSonando = opcion;
@@ -223,20 +245,36 @@
             document.getElementById('contador-votos-mobile').innerText = totalVotos;
         }
 
-        function reiniciarDatos() {
-            if(confirm("¿Estás seguro de que quieres borrar todo tu progreso y volver a empezar?")) {
-                localStorage.removeItem('zeldaRankingData');
-                localStorage.removeItem('zeldaRankingVotos');
-                canciones = JSON.parse(JSON.stringify(baseDatosPorDefecto)); // Clonar por defecto
-                totalVotos = 0;
-                guardarDatos();
-                cargarNuevasCanciones();
-                cerrarRanking();
-            }
+        function mostrarMensaje(titulo, texto) {
+            document.getElementById('modal-mensaje-titulo').innerHTML = `<i class="fa-solid fa-circle-info text-sheikah-blue"></i> ${titulo}`;
+            document.getElementById('modal-mensaje-texto').innerText = texto;
+            document.getElementById('modal-mensaje').classList.remove('modal-hidden');
+        }
+
+        function cerrarMensaje() {
+            document.getElementById('modal-mensaje').classList.add('modal-hidden');
+        }
+
+        function confirmarReinicio() {
+            document.getElementById('modal-confirmacion').classList.remove('modal-hidden');
+        }
+
+        function cerrarConfirmacion() {
+            document.getElementById('modal-confirmacion').classList.add('modal-hidden');
+        }
+
+        function ejecutarReinicio() {
+            localStorage.removeItem('zeldaRankingData');
+            localStorage.removeItem('zeldaRankingVotos');
+            canciones = JSON.parse(JSON.stringify(baseDatosPorDefecto)); // Clonar por defecto
+            totalVotos = 0;
+            guardarDatos();
+            cargarNuevasCanciones();
+            cerrarRanking();
+            cerrarConfirmacion();
         }
 
         function cargarNuevasCanciones() {
-            // Pausar audio al cambiar
             reproductorActual.pause();
             cancionSonando = null;
             if(document.getElementById('icon-play-a')) {
@@ -244,7 +282,6 @@
                 document.getElementById('icon-play-b').className = "fa-solid fa-play ml-1";
             }
 
-            // Elegir 2 canciones al azar que no sean la misma
             let indiceA = Math.floor(Math.random() * canciones.length);
             let indiceB;
             do {
@@ -254,26 +291,22 @@
             cancionA_actual = canciones[indiceA];
             cancionB_actual = canciones[indiceB];
 
-            // Generar portadas temporales con colores según el juego
             let imgA = `https://placehold.co/600x400/${cancionA_actual.color}/ffffff?text=${cancionA_actual.juego.replace(/\s/g, '+')}`;
             let imgB = `https://placehold.co/600x400/${cancionB_actual.color}/ffffff?text=${cancionB_actual.juego.replace(/\s/g, '+')}`;
 
-            // Actualizar Tarjeta A
             document.getElementById('img-a').src = imgA;
             document.getElementById('title-a').innerText = cancionA_actual.titulo;
             document.getElementById('game-a').innerText = cancionA_actual.juego;
             document.getElementById('cat-a').innerText = cancionA_actual.categoria;
 
-            // Actualizar Tarjeta B
             document.getElementById('img-b').src = imgB;
             document.getElementById('title-b').innerText = cancionB_actual.titulo;
             document.getElementById('game-b').innerText = cancionB_actual.juego;
             document.getElementById('cat-b').innerText = cancionB_actual.categoria;
         }
 
-        // Sistema Elo Matemático
         function calcularElo(eloGanador, eloPerdedor) {
-            const K = 32; // Factor de impacto
+            const K = 32; 
             let probGanador = 1 / (1 + Math.pow(10, (eloPerdedor - eloGanador) / 400));
             let probPerdedor = 1 / (1 + Math.pow(10, (eloGanador - eloPerdedor) / 400));
             
@@ -289,7 +322,6 @@
 
             let nuevosElos = calcularElo(ganador.elo, perdedor.elo);
             
-            // Actualizar en el arreglo
             let objGanador = canciones.find(c => c.id === ganador.id);
             let objPerdedor = canciones.find(c => c.id === perdedor.id);
             
@@ -301,24 +333,19 @@
 
             totalVotos++;
             guardarDatos();
-
-            // Pequeña animación (opcional, por ahora solo recarga)
             cargarNuevasCanciones();
         }
 
-        // Funciones del Modal de Ranking
         function abrirRanking() {
             let listaDiv = document.getElementById('lista-ranking');
-            listaDiv.innerHTML = ''; // Limpiar lista
+            listaDiv.innerHTML = ''; 
 
-            // Ordenar canciones por puntos (Elo) de mayor a menor
             let cancionesOrdenadas = [...canciones].sort((a, b) => b.elo - a.elo);
 
             cancionesOrdenadas.forEach((cancion, index) => {
                 let row = document.createElement('div');
                 row.className = "flex items-center gap-4 p-3 border-b border-gray-800 hover:bg-gray-800 transition-colors";
                 
-                // Medalla o Número
                 let rankVisual = `<span class="text-gray-500 font-bold w-6 text-center">${index + 1}</span>`;
                 if(index === 0) rankVisual = `<i class="fa-solid fa-medal text-yellow-400 w-6 text-center text-xl"></i>`;
                 if(index === 1) rankVisual = `<i class="fa-solid fa-medal text-gray-300 w-6 text-center text-xl"></i>`;
@@ -345,7 +372,6 @@
             document.getElementById('modal-ranking').classList.add('modal-hidden');
         }
 
-        // Iniciar página
         actualizarContadores();
         cargarNuevasCanciones();
     </script>
