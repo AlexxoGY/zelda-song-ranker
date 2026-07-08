@@ -7,24 +7,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Importamos la fuente 'Lora' de Google para imitar el estilo de Hyrule Warriors -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        
         @font-face {
             font-family: 'ZeldaCustom';
-            /* AQUÍ ACTUALIZAMOS EL NOMBRE EXACTO DE TU FUENTE */
             src: url('fuentes/HyliaSerifBeta-Regular.otf') format('opentype'); 
         }
 
         .fuente-zelda {
-            font-family: 'ZeldaCustom', 'Inter', sans-serif;
+            font-family: 'ZeldaCustom', 'Lora', serif;
             font-weight: normal;
         }
 
+        /* Cambiamos el texto general para que use la nueva fuente Lora */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Lora', serif;
             background-color: #0d1117;
-            /* AQUÍ ESTÁ TU FONDO EN LA NUEVA CARPETA IMAGENES */
             background-image: linear-gradient(rgba(13, 17, 23, 0.9), rgba(13, 17, 23, 0.9)), url('imagenes/Simbolos%20Zelda%201.jpg');
             background-size: cover;
             background-attachment: fixed;
@@ -46,6 +46,30 @@
         }
         
         .modal-hidden { display: none !important; }
+
+        /* Estilos para las barras deslizables del reproductor (sliders) */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+            width: 100%;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background: #e6c86e; /* Dorado Trifuerza */
+            margin-top: -4px;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(230, 200, 110, 0.8);
+        }
+        input[type=range]:focus { outline: none; }
     </style>
 </head>
 <body class="flex flex-col items-center">
@@ -62,7 +86,7 @@
                 <div class="hidden md:block text-sm text-gray-400">
                     Votos: <span id="contador-votos" class="text-sheikah-blue font-bold">0</span>
                 </div>
-                <button onclick="abrirRanking()" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 transition-colors flex items-center gap-2">
+                <button onclick="abrirRanking()" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 transition-colors flex items-center gap-2 font-bold">
                     <i class="fa-solid fa-trophy text-yellow-500"></i>
                     <span class="hidden md:inline">Ver Ranking</span>
                 </button>
@@ -70,7 +94,7 @@
         </div>
     </header>
 
-    <main class="w-full max-w-5xl mx-auto flex-grow flex flex-col justify-center p-4 md:p-8">
+    <main class="w-full max-w-5xl mx-auto flex-grow flex flex-col justify-center p-4 md:p-8 mb-24"> <!-- mb-24 da espacio para la barra del reproductor -->
         
         <div class="text-center mb-8">
             <h2 class="text-gray-300 text-lg">¿Qué canción es mejor?</h2>
@@ -81,46 +105,46 @@
 
         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-center justify-center w-full">
             
-            <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('A')">
-                <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group">
+            <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('A')" style="background-color: #2a9d8f;">
+                <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group shadow-lg">
                     <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform" onclick="event.stopPropagation(); togglePlay('A');">
+                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)]" onclick="event.stopPropagation(); togglePlay('A');">
                             <i id="icon-play-a" class="fa-solid fa-play ml-1"></i>
                         </button>
                     </div>
                 </div>
-                <h3 id="title-a" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">Cargando...</h3>
-                <p id="game-a" class="text-sheikah-blue text-center text-sm font-semibold mb-2">Cargando...</p>
+                <h3 id="title-a" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.9);">Cargando...</h3>
+                <p id="game-a" class="text-white text-center text-sm font-bold mb-2 opacity-90">Cargando...</p>
                 <div class="mt-auto flex justify-center">
-                    <span id="cat-a" class="bg-gray-800 text-xs px-3 py-1 rounded-full text-gray-300">...</span>
+                    <span id="cat-a" class="bg-black bg-opacity-40 text-xs px-3 py-1 rounded-full text-white border border-white border-opacity-20">...</span>
                 </div>
             </div>
 
-            <div class="flex-shrink-0 bg-gray-900 border-2 border-sheikah rounded-full w-16 h-16 flex items-center justify-center fuente-zelda text-2xl text-sheikah-blue z-10 -my-4 md:my-0 md:-mx-8 shadow-[0_0_15px_rgba(66,245,245,0.4)]">
+            <div class="flex-shrink-0 bg-gray-900 border-2 border-sheikah rounded-full w-16 h-16 flex items-center justify-center fuente-zelda text-3xl text-sheikah-blue z-10 -my-4 md:my-0 md:-mx-8 shadow-[0_0_20px_rgba(66,245,245,0.5)]">
                 VS
             </div>
 
-            <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('B')">
-                <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group">
+            <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('B')" style="background-color: #e07a5f;">
+                <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group shadow-lg">
                     <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform" onclick="event.stopPropagation(); togglePlay('B');">
+                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)]" onclick="event.stopPropagation(); togglePlay('B');">
                             <i id="icon-play-b" class="fa-solid fa-play ml-1"></i>
                         </button>
                     </div>
                 </div>
-                <h3 id="title-b" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">Cargando...</h3>
-                <p id="game-b" class="text-sheikah-blue text-center text-sm font-semibold mb-2">Cargando...</p>
+                <h3 id="title-b" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.9);">Cargando...</h3>
+                <p id="game-b" class="text-white text-center text-sm font-bold mb-2 opacity-90">Cargando...</p>
                 <div class="mt-auto flex justify-center">
-                    <span id="cat-b" class="bg-gray-800 text-xs px-3 py-1 rounded-full text-gray-300">...</span>
+                    <span id="cat-b" class="bg-black bg-opacity-40 text-xs px-3 py-1 rounded-full text-white border border-white border-opacity-20">...</span>
                 </div>
             </div>
 
         </div>
 
         <div class="mt-10 flex justify-center gap-4">
-            <button onclick="cargarNuevasCanciones()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-2 rounded-full border border-gray-600 transition-colors text-sm flex items-center gap-2">
+            <button onclick="cargarNuevasCanciones()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-full border border-gray-600 transition-colors text-sm flex items-center gap-2 shadow-lg">
                 <i class="fa-solid fa-forward-step"></i> No conozco ambas / Saltar
             </button>
         </div>
@@ -131,7 +155,7 @@
     <div id="modal-ranking" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex justify-center items-center p-4">
         <div class="bg-[#161b22] border border-sheikah rounded-xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl">
             <div class="p-4 border-b border-gray-800 flex justify-between items-center bg-sheikah-dark rounded-t-xl">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-trophy text-yellow-500"></i> Tu Ranking Personal</h2>
+                <h2 class="text-2xl fuente-zelda text-white flex items-center gap-2 tracking-wider"><i class="fa-solid fa-trophy text-yellow-500"></i> TU RANKING</h2>
                 <button onclick="cerrarRanking()" class="text-gray-400 hover:text-white transition-colors">
                     <i class="fa-solid fa-xmark text-2xl"></i>
                 </button>
@@ -140,15 +164,15 @@
                 <!-- Los items se inyectan aquí -->
             </div>
             <div class="p-4 border-t border-gray-800 bg-sheikah-dark rounded-b-xl flex justify-between items-center">
-                <p class="text-xs text-gray-500">Sistema Elo.</p>
+                <p class="text-xs text-gray-500">Sistema de puntuación Elo.</p>
                 <button onclick="confirmarReinicio()" class="bg-red-900 bg-opacity-50 hover:bg-opacity-100 text-red-200 px-3 py-1 rounded border border-red-800 transition-colors text-sm flex items-center gap-1">
-                    <i class="fa-solid fa-trash"></i> Reiniciar
+                    <i class="fa-solid fa-trash"></i> Reiniciar Progreso
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Mensaje (Errores de Audio) -->
+    <!-- Modal Mensaje General (Errores) -->
     <div id="modal-mensaje" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 z-[60] flex justify-center items-center p-4">
         <div class="bg-[#161b22] border border-sheikah rounded-xl w-full max-w-sm flex flex-col shadow-2xl">
             <div class="p-4 border-b border-gray-800 bg-sheikah-dark rounded-t-xl text-center">
@@ -183,12 +207,43 @@
         </div>
     </div>
 
+    <!-- BARRA DEL REPRODUCTOR INFERIOR (Oculta por defecto) -->
+    <div id="reproductor-barra" class="hidden fixed bottom-0 left-0 w-full bg-[#111] border-t-2 border-sheikah p-3 z-40 shadow-[0_-5px_15px_rgba(0,0,0,0.8)]">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-4">
+            
+            <!-- Botón de Stop / Cerrar -->
+            <button onclick="cerrarReproductor()" class="text-gray-400 hover:text-red-400 transition-colors p-2 border border-gray-700 rounded bg-gray-900 flex-shrink-0">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <!-- Título de la Canción -->
+            <div class="w-full md:w-1/4 text-center md:text-left flex-shrink-0">
+                <div id="barra-titulo" class="text-white font-bold truncate text-sm md:text-base">Nombre de la canción</div>
+                <div id="barra-juego" class="text-sheikah-blue text-xs truncate">Juego</div>
+            </div>
+
+            <!-- Controles de Tiempo y Progreso -->
+            <div class="w-full flex-grow flex items-center gap-3">
+                <span id="tiempo-actual" class="text-xs text-gray-400 font-mono w-10 text-right">0:00</span>
+                <input type="range" id="barra-progreso" min="0" max="100" value="0" class="flex-grow" oninput="cambiarProgreso()">
+                <span id="tiempo-total" class="text-xs text-gray-400 font-mono w-10">0:00</span>
+            </div>
+
+            <!-- Control de Volumen -->
+            <div class="hidden md:flex items-center gap-2 w-32 flex-shrink-0">
+                <i class="fa-solid fa-volume-low text-gray-400 text-xs"></i>
+                <input type="range" id="barra-volumen" min="0" max="1" step="0.05" value="1" oninput="cambiarVolumen()">
+                <i class="fa-solid fa-volume-high text-gray-400 text-xs"></i>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // TUS 3 CANCIONES DE PRUEBA OFICIALES
+        // BASE DE DATOS (Tus 3 canciones reales)
         const baseDatosPorDefecto = [
             { id: "sp-001", titulo: "File Select", juego: "Spirit Tracks", categoria: "Menú", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/sp_file_select.mp3" },
             { id: "sp-002", titulo: "Hyrule Castle", juego: "Spirit Tracks", categoria: "Castillo", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/sp_hyrule_castle.mp3" },
-            { id: "tp-001", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "ffaa00", elo: 1500, partidas: 0, archivo_audio: "canciones/tp_hyrule_field_orchestra.mp3" }
+            { id: "tp-001", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "e07a5f", elo: 1500, partidas: 0, archivo_audio: "canciones/tp_hyrule_field_orchestra.mp3" }
         ];
 
         let canciones = JSON.parse(localStorage.getItem('zeldaRankingData')) || baseDatosPorDefecto;
@@ -199,19 +254,66 @@
             return c;
         });
 
-        // Forzar a que la página lea nuevas canciones si agregaste a baseDatosPorDefecto y no estaban en la memoria
-        baseDatosPorDefecto.forEach(original => {
-            if(!canciones.find(c => c.id === original.id)) {
-                canciones.push(original);
-            }
-        });
-
         let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos')) || 0;
         let cancionA_actual = null;
         let cancionB_actual = null;
 
+        // Variables del Reproductor de Música
         let reproductorActual = new Audio();
         let cancionSonando = null;
+        
+        // Elementos visuales de la barra inferior
+        const barraReproductor = document.getElementById('reproductor-barra');
+        const barraProgreso = document.getElementById('barra-progreso');
+        const barraVolumen = document.getElementById('barra-volumen');
+        const textoTiempoActual = document.getElementById('tiempo-actual');
+        const textoTiempoTotal = document.getElementById('tiempo-total');
+        const textoBarraTitulo = document.getElementById('barra-titulo');
+        const textoBarraJuego = document.getElementById('barra-juego');
+
+        // Formatea los segundos a "Minutos:Segundos" (ej. 1:45)
+        function formatoTiempo(segundos) {
+            if (isNaN(segundos)) return "0:00";
+            const min = Math.floor(segundos / 60);
+            const seg = Math.floor(segundos % 60);
+            return min + ":" + (seg < 10 ? "0" : "") + seg;
+        }
+
+        // Actualiza la barra roja/dorada mientras suena la música
+        reproductorActual.addEventListener('timeupdate', () => {
+            if (reproductorActual.duration) {
+                const porcentaje = (reproductorActual.currentTime / reproductorActual.duration) * 100;
+                barraProgreso.value = porcentaje;
+                textoTiempoActual.innerText = formatoTiempo(reproductorActual.currentTime);
+            }
+        });
+
+        // Obtiene el tiempo total cuando carga la canción
+        reproductorActual.addEventListener('loadedmetadata', () => {
+            textoTiempoTotal.innerText = formatoTiempo(reproductorActual.duration);
+        });
+
+        // Cuando el usuario arrastra la barra de progreso
+        function cambiarProgreso() {
+            if (reproductorActual.duration) {
+                const nuevoTiempo = (barraProgreso.value / 100) * reproductorActual.duration;
+                reproductorActual.currentTime = nuevoTiempo;
+            }
+        }
+
+        // Cuando el usuario arrastra la barra de volumen
+        function cambiarVolumen() {
+            reproductorActual.volume = barraVolumen.value;
+        }
+
+        // Cierra la barra inferior y detiene todo
+        function cerrarReproductor() {
+            reproductorActual.pause();
+            cancionSonando = null;
+            barraReproductor.classList.add('hidden');
+            document.getElementById('icon-play-a').className = "fa-solid fa-play ml-1";
+            document.getElementById('icon-play-b').className = "fa-solid fa-play ml-1";
+        }
 
         function togglePlay(opcion) {
             let cancionElegida = opcion === 'A' ? cancionA_actual : cancionB_actual;
@@ -237,8 +339,15 @@
 
             if (cancionElegida.archivo_audio) {
                 reproductorActual.src = cancionElegida.archivo_audio;
+                
+                // Mostrar la barra inferior y actualizar textos
+                barraReproductor.classList.remove('hidden');
+                textoBarraTitulo.innerText = cancionElegida.titulo;
+                textoBarraJuego.innerText = cancionElegida.juego;
+                
                 reproductorActual.play().catch(e => {
-                    mostrarMensaje("Falta Audio", "No se encontró el audio. Verifica que el archivo esté subido en la carpeta 'canciones/'.");
+                    mostrarMensaje("Error de Audio", "No se encontró el audio. ¿Seguro que subiste el archivo '" + cancionElegida.archivo_audio + "' a tu GitHub?");
+                    barraReproductor.classList.add('hidden');
                 });
                 
                 cancionSonando = opcion;
@@ -258,7 +367,6 @@
             document.getElementById('contador-votos-mobile').innerText = totalVotos;
         }
 
-        // Funciones de Menús Emergentes (Modals)
         function mostrarMensaje(titulo, texto) {
             document.getElementById('modal-mensaje-titulo').innerHTML = `<i class="fa-solid fa-circle-info text-sheikah-blue"></i> ${titulo}`;
             document.getElementById('modal-mensaje-texto').innerText = texto;
@@ -286,15 +394,12 @@
             cargarNuevasCanciones();
             cerrarRanking();
             cerrarConfirmacion();
+            cerrarReproductor();
         }
 
         function cargarNuevasCanciones() {
-            reproductorActual.pause();
-            cancionSonando = null;
-            if(document.getElementById('icon-play-a')) {
-                document.getElementById('icon-play-a').className = "fa-solid fa-play ml-1";
-                document.getElementById('icon-play-b').className = "fa-solid fa-play ml-1";
-            }
+            // Pausar y cerrar reproductor al cambiar
+            cerrarReproductor();
 
             let indiceA = Math.floor(Math.random() * canciones.length);
             let indiceB;
@@ -305,18 +410,15 @@
             cancionA_actual = canciones[indiceA];
             cancionB_actual = canciones[indiceB];
 
-            let imgA = `https://placehold.co/600x400/${cancionA_actual.color}/ffffff?text=${cancionA_actual.juego.replace(/\s/g, '+')}`;
-            let imgB = `https://placehold.co/600x400/${cancionB_actual.color}/ffffff?text=${cancionB_actual.juego.replace(/\s/g, '+')}`;
-
-            document.getElementById('img-a').src = imgA;
             document.getElementById('title-a').innerText = cancionA_actual.titulo;
             document.getElementById('game-a').innerText = cancionA_actual.juego;
             document.getElementById('cat-a').innerText = cancionA_actual.categoria;
+            document.getElementById('img-a').parentNode.parentNode.style.backgroundColor = '#' + cancionA_actual.color;
 
-            document.getElementById('img-b').src = imgB;
             document.getElementById('title-b').innerText = cancionB_actual.titulo;
             document.getElementById('game-b').innerText = cancionB_actual.juego;
             document.getElementById('cat-b').innerText = cancionB_actual.categoria;
+            document.getElementById('img-b').parentNode.parentNode.style.backgroundColor = '#' + cancionB_actual.color;
         }
 
         function calcularElo(eloGanador, eloPerdedor) {
