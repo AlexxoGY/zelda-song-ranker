@@ -109,7 +109,7 @@
             
             <!-- Tarjeta A (Canción 1) -->
             <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('A')" style="background-color: #2a9d8f;">
-                <!-- Cambiado a aspect-square y un poco más estrecho (w-4/5) para hacer efecto de portada de disco -->
+                <!-- Contenedor de imagen CUADRADO (1:1) y más pequeño (w-4/5) -->
                 <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
                     <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
                     <!-- Botón de Play -->
@@ -133,7 +133,7 @@
 
             <!-- Tarjeta B (Canción 2) -->
             <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('B')" style="background-color: #e07a5f;">
-                <!-- Cambiado a aspect-square y w-4/5 -->
+                <!-- Contenedor de imagen CUADRADO (1:1) y más pequeño (w-4/5) -->
                 <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
                     <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
                     <!-- Botón de Play -->
@@ -152,6 +152,7 @@
 
         </div>
 
+        <!-- Botón Saltar -->
         <div class="mt-10 flex justify-center gap-4">
             <button onclick="cargarNuevasCanciones()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-full border border-gray-600 transition-colors text-sm flex items-center gap-2 shadow-lg">
                 <i class="fa-solid fa-forward-step"></i> No conozco ambas / Saltar
@@ -248,11 +249,6 @@
             { id: "tp-001", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "e07a5f", elo: 1500, partidas: 0, archivo_audio: "canciones/tp_hyrule_field_orchestra.mp3", portada: "portadas/tp.jpg" }
         ];
 
-        // PURGA AUTOMÁTICA DE CACHÉ VIEJO: 
-        // Cambié el nombre interno de guardado a '_v2' para que tu navegador se olvide de la memoria de las canciones que se llamaban 'sp-001'.
-        localStorage.removeItem('zeldaRankingData');
-        localStorage.removeItem('zeldaRankingVotos');
-
         // Cargamos los datos limpios (Versión 2)
         let canciones = JSON.parse(localStorage.getItem('zeldaRankingData_v2')) || baseDatosPorDefecto;
         
@@ -344,6 +340,7 @@
             iconoB.className = "fa-solid fa-play ml-1";
 
             if (cancionElegida.archivo_audio) {
+                // AQUI SE REMOVIÓ EL "?v=3" PARA MANTENER EL CÓDIGO LIMPIO.
                 reproductorActual.src = cancionElegida.archivo_audio;
                 
                 barraReproductor.classList.remove('hidden');
