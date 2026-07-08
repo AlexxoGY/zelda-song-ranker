@@ -12,7 +12,8 @@
         
         @font-face {
             font-family: 'ZeldaCustom';
-            src: url('fuentes/zelda.ttf'); /* Aquí está tu fuente de Zelda */
+            /* AQUÍ ACTUALIZAMOS EL NOMBRE EXACTO DE TU FUENTE */
+            src: url('fuentes/HyliaSerifBeta-Regular.otf') format('opentype'); 
         }
 
         .fuente-zelda {
@@ -23,7 +24,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0d1117;
-            /* AQUÍ ACTUALIZAMOS LA RUTA A LA CARPETA 'imagenes/' */
+            /* AQUÍ ESTÁ TU FONDO EN LA NUEVA CARPETA IMAGENES */
             background-image: linear-gradient(rgba(13, 17, 23, 0.9), rgba(13, 17, 23, 0.9)), url('imagenes/Simbolos%20Zelda%201.jpg');
             background-size: cover;
             background-attachment: fixed;
@@ -126,6 +127,7 @@
 
     </main>
 
+    <!-- Modal Ranking -->
     <div id="modal-ranking" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex justify-center items-center p-4">
         <div class="bg-[#161b22] border border-sheikah rounded-xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl">
             <div class="p-4 border-b border-gray-800 flex justify-between items-center bg-sheikah-dark rounded-t-xl">
@@ -146,6 +148,7 @@
         </div>
     </div>
 
+    <!-- Modal Mensaje (Errores de Audio) -->
     <div id="modal-mensaje" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 z-[60] flex justify-center items-center p-4">
         <div class="bg-[#161b22] border border-sheikah rounded-xl w-full max-w-sm flex flex-col shadow-2xl">
             <div class="p-4 border-b border-gray-800 bg-sheikah-dark rounded-t-xl text-center">
@@ -160,6 +163,7 @@
         </div>
     </div>
 
+    <!-- Modal Confirmación Borrado -->
     <div id="modal-confirmacion" class="modal-hidden fixed inset-0 bg-black bg-opacity-80 z-[60] flex justify-center items-center p-4">
         <div class="bg-[#161b22] border border-red-900 rounded-xl w-full max-w-sm flex flex-col shadow-2xl">
             <div class="p-4 border-b border-gray-800 bg-red-900 bg-opacity-20 rounded-t-xl text-center">
@@ -180,6 +184,7 @@
     </div>
 
     <script>
+        // TUS 3 CANCIONES DE PRUEBA OFICIALES
         const baseDatosPorDefecto = [
             { id: "sp-001", titulo: "File Select", juego: "Spirit Tracks", categoria: "Menú", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/sp_file_select.mp3" },
             { id: "sp-002", titulo: "Hyrule Castle", juego: "Spirit Tracks", categoria: "Castillo", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/sp_hyrule_castle.mp3" },
@@ -194,7 +199,7 @@
             return c;
         });
 
-        // Asegurarnos de que las nuevas canciones se agreguen a la memoria
+        // Forzar a que la página lea nuevas canciones si agregaste a baseDatosPorDefecto y no estaban en la memoria
         baseDatosPorDefecto.forEach(original => {
             if(!canciones.find(c => c.id === original.id)) {
                 canciones.push(original);
@@ -233,7 +238,7 @@
             if (cancionElegida.archivo_audio) {
                 reproductorActual.src = cancionElegida.archivo_audio;
                 reproductorActual.play().catch(e => {
-                    mostrarMensaje("Falta Audio", "No se encontró el audio. Verifica que el archivo esté subido en GitHub.");
+                    mostrarMensaje("Falta Audio", "No se encontró el audio. Verifica que el archivo esté subido en la carpeta 'canciones/'.");
                 });
                 
                 cancionSonando = opcion;
@@ -253,6 +258,7 @@
             document.getElementById('contador-votos-mobile').innerText = totalVotos;
         }
 
+        // Funciones de Menús Emergentes (Modals)
         function mostrarMensaje(titulo, texto) {
             document.getElementById('modal-mensaje-titulo').innerHTML = `<i class="fa-solid fa-circle-info text-sheikah-blue"></i> ${titulo}`;
             document.getElementById('modal-mensaje-texto').innerText = texto;
