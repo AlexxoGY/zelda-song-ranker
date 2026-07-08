@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zelda Song Ranker</title>
-    <!-- Tailwind para el diseño responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Importamos la fuente Lora para el texto general -->
+    <!-- Fuente Lora para el texto general (estilo Hyrule Warriors) -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
@@ -24,7 +22,7 @@
             font-weight: normal;
         }
 
-        /* Aplicamos Lora a todo el texto y configuramos tu fondo de símbolos */
+        /* Aplicamos Lora a todo el texto normal y tu fondo de Símbolos Zelda */
         body {
             font-family: 'Lora', serif;
             background-color: #0d1117;
@@ -48,10 +46,10 @@
             border-color: rgba(66, 245, 245, 0.8);
         }
         
-        /* Ocultar ventanas emergentes suavemente */
+        /* Prioridad absoluta para ocultar los menús */
         .modal-hidden { display: none !important; }
 
-        /* Estilos para el reproductor inferior */
+        /* Estilos para el reproductor inferior (estilo slider custom) */
         input[type=range] {
             -webkit-appearance: none;
             background: transparent;
@@ -68,7 +66,7 @@
             height: 12px;
             width: 12px;
             border-radius: 50%;
-            background: #e6c86e;
+            background: #e6c86e; /* Dorado Zelda */
             margin-top: -4px;
             cursor: pointer;
             box-shadow: 0 0 5px rgba(230, 200, 110, 0.8);
@@ -90,7 +88,7 @@
                 <div class="hidden md:block text-sm text-gray-400">
                     Votos: <span id="contador-votos" class="text-sheikah-blue font-bold">0</span>
                 </div>
-                <button onclick="abrirRanking()" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 transition-colors flex items-center gap-2 font-bold">
+                <button onclick="abrirRanking()" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 transition-colors flex items-center gap-2 font-bold shadow-md">
                     <i class="fa-solid fa-trophy text-yellow-500"></i>
                     <span class="hidden md:inline">Ver Ranking</span>
                 </button>
@@ -109,18 +107,20 @@
 
         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-center justify-center w-full">
             
-            <!-- Tarjeta A -->
+            <!-- Tarjeta A (Canción 1) -->
             <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('A')" style="background-color: #2a9d8f;">
-                <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group shadow-lg">
+                <!-- Cambiado a aspect-square y un poco más estrecho (w-4/5) para hacer efecto de portada de disco -->
+                <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
                     <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
+                    <!-- Botón de Play -->
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)]" onclick="event.stopPropagation(); togglePlay('A');">
                             <i id="icon-play-a" class="fa-solid fa-play ml-1"></i>
                         </button>
                     </div>
                 </div>
-                <h3 id="title-a" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.9);">Cargando...</h3>
-                <p id="game-a" class="text-white text-center text-sm font-bold mb-2 opacity-90">Cargando...</p>
+                <h3 id="title-a" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">Cargando...</h3>
+                <p id="game-a" class="text-white text-center text-sm font-bold mb-3 opacity-90">Cargando...</p>
                 <div class="mt-auto flex justify-center">
                     <span id="cat-a" class="bg-black bg-opacity-40 text-xs px-3 py-1 rounded-full text-white border border-white border-opacity-20">...</span>
                 </div>
@@ -131,18 +131,20 @@
                 VS
             </div>
 
-            <!-- Tarjeta B -->
+            <!-- Tarjeta B (Canción 2) -->
             <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('B')" style="background-color: #e07a5f;">
-                <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4 group shadow-lg">
+                <!-- Cambiado a aspect-square y w-4/5 -->
+                <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
                     <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
+                    <!-- Botón de Play -->
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)]" onclick="event.stopPropagation(); togglePlay('B');">
                             <i id="icon-play-b" class="fa-solid fa-play ml-1"></i>
                         </button>
                     </div>
                 </div>
-                <h3 id="title-b" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.9);">Cargando...</h3>
-                <p id="game-b" class="text-white text-center text-sm font-bold mb-2 opacity-90">Cargando...</p>
+                <h3 id="title-b" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">Cargando...</h3>
+                <p id="game-b" class="text-white text-center text-sm font-bold mb-3 opacity-90">Cargando...</p>
                 <div class="mt-auto flex justify-center">
                     <span id="cat-b" class="bg-black bg-opacity-40 text-xs px-3 py-1 rounded-full text-white border border-white border-opacity-20">...</span>
                 </div>
@@ -155,7 +157,6 @@
                 <i class="fa-solid fa-forward-step"></i> No conozco ambas / Saltar
             </button>
         </div>
-
     </main>
 
     <!-- Modal Ranking -->
@@ -167,8 +168,7 @@
                     <i class="fa-solid fa-xmark text-2xl"></i>
                 </button>
             </div>
-            <div class="p-4 overflow-y-auto flex-grow" id="lista-ranking">
-            </div>
+            <div class="p-4 overflow-y-auto flex-grow" id="lista-ranking"></div>
             <div class="p-4 border-t border-gray-800 bg-sheikah-dark rounded-b-xl flex justify-between items-center">
                 <p class="text-xs text-gray-500">Sistema de puntuación Elo.</p>
                 <button onclick="confirmarReinicio()" class="bg-red-900 bg-opacity-50 hover:bg-opacity-100 text-red-200 px-3 py-1 rounded border border-red-800 transition-colors text-sm flex items-center gap-1">
@@ -222,8 +222,8 @@
             </button>
 
             <div class="w-full md:w-1/4 text-center md:text-left flex-shrink-0">
-                <div id="barra-titulo" class="text-white font-bold truncate text-sm md:text-base">Nombre de la canción</div>
-                <div id="barra-juego" class="text-sheikah-blue text-xs truncate">Juego</div>
+                <div id="barra-titulo" class="text-white font-bold truncate text-sm md:text-base fuente-zelda tracking-wider">Nombre de la canción</div>
+                <div id="barra-juego" class="text-sheikah-blue text-xs truncate uppercase tracking-widest font-bold">Juego</div>
             </div>
 
             <div class="w-full flex-grow flex items-center gap-3">
@@ -241,14 +241,20 @@
     </div>
 
     <script>
-        // BASE DE DATOS ACTUALIZADA CON RUTAS REALES DE AUDIOS Y PORTADAS
+        // BASE DE DATOS ACTUALIZADA CON TUS RUTAS REALES ('st' y 'tp')
         const baseDatosPorDefecto = [
             { id: "st-001", titulo: "File Select", juego: "Spirit Tracks", categoria: "Menú", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/st_file_select.mp3", portada: "portadas/st.png" },
             { id: "st-002", titulo: "Hyrule Castle", juego: "Spirit Tracks", categoria: "Castillo", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/st_hyrule_castle.mp3", portada: "portadas/st.png" },
             { id: "tp-001", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "e07a5f", elo: 1500, partidas: 0, archivo_audio: "canciones/tp_hyrule_field_orchestra.mp3", portada: "portadas/tp.jpg" }
         ];
 
-        let canciones = JSON.parse(localStorage.getItem('zeldaRankingData')) || baseDatosPorDefecto;
+        // PURGA AUTOMÁTICA DE CACHÉ VIEJO: 
+        // Cambié el nombre interno de guardado a '_v2' para que tu navegador se olvide de la memoria de las canciones que se llamaban 'sp-001'.
+        localStorage.removeItem('zeldaRankingData');
+        localStorage.removeItem('zeldaRankingVotos');
+
+        // Cargamos los datos limpios (Versión 2)
+        let canciones = JSON.parse(localStorage.getItem('zeldaRankingData_v2')) || baseDatosPorDefecto;
         
         canciones = canciones.map(c => {
             let original = baseDatosPorDefecto.find(b => b.id === c.id);
@@ -259,10 +265,11 @@
             return c;
         });
 
-        let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos')) || 0;
+        let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos_v2')) || 0;
         let cancionA_actual = null;
         let cancionB_actual = null;
 
+        // Variables Reproductor
         let reproductorActual = new Audio();
         let cancionSonando = null;
         
@@ -355,8 +362,8 @@
         }
 
         function guardarDatos() {
-            localStorage.setItem('zeldaRankingData', JSON.stringify(canciones));
-            localStorage.setItem('zeldaRankingVotos', totalVotos);
+            localStorage.setItem('zeldaRankingData_v2', JSON.stringify(canciones));
+            localStorage.setItem('zeldaRankingVotos_v2', totalVotos);
             actualizarContadores();
         }
 
@@ -384,8 +391,8 @@
         }
 
         function ejecutarReinicio() {
-            localStorage.removeItem('zeldaRankingData');
-            localStorage.removeItem('zeldaRankingVotos');
+            localStorage.removeItem('zeldaRankingData_v2');
+            localStorage.removeItem('zeldaRankingVotos_v2');
             canciones = JSON.parse(JSON.stringify(baseDatosPorDefecto));
             totalVotos = 0;
             guardarDatos();
@@ -470,7 +477,7 @@
                     ${rankVisual}
                     <div class="flex-grow">
                         <div class="text-white font-bold fuente-zelda tracking-wider" style="font-size: 1.1rem;">${cancion.titulo}</div>
-                        <div class="text-sheikah-blue text-xs">${cancion.juego}</div>
+                        <div class="text-sheikah-blue text-xs uppercase tracking-widest font-bold">${cancion.juego}</div>
                     </div>
                     <div class="text-right">
                         <div class="text-sm font-mono text-gray-300">${cancion.elo} pts</div>
