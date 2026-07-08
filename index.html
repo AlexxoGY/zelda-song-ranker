@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
-        /* Importamos tu fuente local de Zelda para los títulos */
+        /* Fuente Hylia Serif Beta descargada */
         @font-face {
             font-family: 'ZeldaCustom';
             src: url('fuentes/HyliaSerifBeta-Regular.otf') format('opentype'); 
@@ -22,10 +22,11 @@
             font-weight: normal;
         }
 
-        /* Aplicamos Lora a todo el texto normal y tu fondo de Símbolos Zelda */
+        /* Aplicamos Lora a todo el texto normal y el fondo */
         body {
             font-family: 'Lora', serif;
             background-color: #0d1117;
+            /* Usamos la imagen con fondo un poco más oscuro para que la letra blanca se lea bien */
             background-image: linear-gradient(rgba(13, 17, 23, 0.9), rgba(13, 17, 23, 0.9)), url('imagenes/Simbolos%20Zelda%201.jpg');
             background-size: cover;
             background-attachment: fixed;
@@ -46,10 +47,10 @@
             border-color: rgba(66, 245, 245, 0.8);
         }
         
-        /* Prioridad absoluta para ocultar los menús */
+        /* Prioridad absoluta para ocultar los menús emergentes */
         .modal-hidden { display: none !important; }
 
-        /* Estilos para el reproductor inferior (estilo slider custom) */
+        /* Estilos personalizados para la barra del reproductor de música */
         input[type=range] {
             -webkit-appearance: none;
             background: transparent;
@@ -66,7 +67,7 @@
             height: 12px;
             width: 12px;
             border-radius: 50%;
-            background: #e6c86e; /* Dorado Zelda */
+            background: #e6c86e; /* Dorado estilo Zelda */
             margin-top: -4px;
             cursor: pointer;
             box-shadow: 0 0 5px rgba(230, 200, 110, 0.8);
@@ -109,10 +110,10 @@
             
             <!-- Tarjeta A (Canción 1) -->
             <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('A')" style="background-color: #2a9d8f;">
-                <!-- Contenedor de imagen CUADRADO (1:1) y más pequeño (w-4/5) -->
+                <!-- Contenedor de portada CUADRADA y pequeña -->
                 <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
                     <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
-                    <!-- Botón de Play -->
+                    <!-- Botón Play superpuesto -->
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)]" onclick="event.stopPropagation(); togglePlay('A');">
                             <i id="icon-play-a" class="fa-solid fa-play ml-1"></i>
@@ -133,10 +134,10 @@
 
             <!-- Tarjeta B (Canción 2) -->
             <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('B')" style="background-color: #e07a5f;">
-                <!-- Contenedor de imagen CUADRADO (1:1) y más pequeño (w-4/5) -->
+                <!-- Contenedor de portada CUADRADA y pequeña -->
                 <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
                     <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
-                    <!-- Botón de Play -->
+                    <!-- Botón Play superpuesto -->
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)]" onclick="event.stopPropagation(); togglePlay('B');">
                             <i id="icon-play-b" class="fa-solid fa-play ml-1"></i>
@@ -214,7 +215,6 @@
         </div>
     </div>
 
-    <!-- BARRA DEL REPRODUCTOR INFERIOR -->
     <div id="reproductor-barra" class="hidden fixed bottom-0 left-0 w-full bg-[#111] border-t-2 border-sheikah p-3 z-40 shadow-[0_-5px_15px_rgba(0,0,0,0.8)]">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-4">
             
@@ -242,15 +242,22 @@
     </div>
 
     <script>
-        // BASE DE DATOS ACTUALIZADA CON TUS RUTAS REALES ('st' y 'tp')
+        // BASE DE DATOS ACTUALIZADA
         const baseDatosPorDefecto = [
             { id: "st-001", titulo: "File Select", juego: "Spirit Tracks", categoria: "Menú", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/st_file_select.mp3", portada: "portadas/st.png" },
             { id: "st-002", titulo: "Hyrule Castle", juego: "Spirit Tracks", categoria: "Castillo", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/st_hyrule_castle.mp3", portada: "portadas/st.png" },
-            { id: "tp-001", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "e07a5f", elo: 1500, partidas: 0, archivo_audio: "canciones/tp_hyrule_field_orchestra.mp3", portada: "portadas/tp.jpg" }
+            { id: "tp-001", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "e07a5f", elo: 1500, partidas: 0, archivo_audio: "canciones/tp_hyrule_field_orchestra.mp3", portada: "portadas/tp.jpg" },
+            
+            // NUEVAS CANCIONES AÑADIDAS
+            { id: "botw-001", titulo: "Main Theme", juego: "Breath of the Wild", categoria: "Tema Principal", color: "42f5f5", elo: 1500, partidas: 0, archivo_audio: "canciones/botw_main_theme.mp3", portada: "portadas/botw.jpg" },
+            { id: "oot-001", titulo: "Fairy's Fountain", juego: "Ocarina of Time", categoria: "Fuente Hada", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_fairy's_fountain.mp3", portada: "portadas/oot.jpg" },
+            { id: "oot-002", titulo: "Hyrule Field", juego: "Ocarina of Time", categoria: "Overworld", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_hyrule_field.mp3", portada: "portadas/oot.jpg" },
+            { id: "oot-003", titulo: "Shop Theme", juego: "Ocarina of Time", categoria: "Tienda", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_shop.mp3", portada: "portadas/oot.jpg" },
+            { id: "oot-004", titulo: "Title Theme", juego: "Ocarina of Time", categoria: "Menú", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_title_theme.mp3", portada: "portadas/oot.jpg" }
         ];
 
-        // Cargamos los datos limpios (Versión 2)
-        let canciones = JSON.parse(localStorage.getItem('zeldaRankingData_v2')) || baseDatosPorDefecto;
+        // Usamos '_v3' para forzar al navegador a borrar el historial viejo y cargar tu base de datos nueva
+        let canciones = JSON.parse(localStorage.getItem('zeldaRankingData_v3')) || baseDatosPorDefecto;
         
         canciones = canciones.map(c => {
             let original = baseDatosPorDefecto.find(b => b.id === c.id);
@@ -261,11 +268,10 @@
             return c;
         });
 
-        let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos_v2')) || 0;
+        let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos_v3')) || 0;
         let cancionA_actual = null;
         let cancionB_actual = null;
 
-        // Variables Reproductor
         let reproductorActual = new Audio();
         let cancionSonando = null;
         
@@ -340,7 +346,7 @@
             iconoB.className = "fa-solid fa-play ml-1";
 
             if (cancionElegida.archivo_audio) {
-                // AQUI SE REMOVIÓ EL "?v=3" PARA MANTENER EL CÓDIGO LIMPIO.
+                // El código está limpio (sin el parche temporal)
                 reproductorActual.src = cancionElegida.archivo_audio;
                 
                 barraReproductor.classList.remove('hidden');
@@ -359,8 +365,8 @@
         }
 
         function guardarDatos() {
-            localStorage.setItem('zeldaRankingData_v2', JSON.stringify(canciones));
-            localStorage.setItem('zeldaRankingVotos_v2', totalVotos);
+            localStorage.setItem('zeldaRankingData_v3', JSON.stringify(canciones));
+            localStorage.setItem('zeldaRankingVotos_v3', totalVotos);
             actualizarContadores();
         }
 
@@ -388,8 +394,8 @@
         }
 
         function ejecutarReinicio() {
-            localStorage.removeItem('zeldaRankingData_v2');
-            localStorage.removeItem('zeldaRankingVotos_v2');
+            localStorage.removeItem('zeldaRankingData_v3');
+            localStorage.removeItem('zeldaRankingVotos_v3');
             canciones = JSON.parse(JSON.stringify(baseDatosPorDefecto));
             totalVotos = 0;
             guardarDatos();
