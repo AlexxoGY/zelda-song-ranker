@@ -108,23 +108,31 @@
 
         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-center justify-center w-full">
             
-            <!-- Tarjeta A (Canción 1) -->
-            <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('A')" style="background-color: #2a9d8f;">
-                <!-- Contenedor de portada CUADRADA y pequeña -->
-                <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
-                    <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
-                    <!-- Botón Play superpuesto -->
-                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)]" onclick="event.stopPropagation(); togglePlay('A');">
-                            <i id="icon-play-a" class="fa-solid fa-play ml-1"></i>
-                        </button>
+            <!-- Contenedor A (Canción 1) -->
+            <div class="w-full md:w-5/12 flex flex-col gap-4 items-center">
+                <!-- Tarjeta visual (Ya NO se puede hacer clic para votar) -->
+                <div class="w-full bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col" style="background-color: #2a9d8f;">
+                    <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
+                        <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
+                        <!-- Botón Play superpuesto -->
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)] cursor-pointer" onclick="togglePlay('A');">
+                                <i id="icon-play-a" class="fa-solid fa-play ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 id="title-a" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">Cargando...</h3>
+                    <p id="game-a" class="text-white text-center text-sm font-bold mb-3 opacity-90">Cargando...</p>
+                    <div class="mt-auto flex justify-center">
+                        <span id="cat-a" class="bg-black bg-opacity-40 text-xs px-3 py-1 rounded-full text-white border border-white border-opacity-20">...</span>
                     </div>
                 </div>
-                <h3 id="title-a" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">Cargando...</h3>
-                <p id="game-a" class="text-white text-center text-sm font-bold mb-3 opacity-90">Cargando...</p>
-                <div class="mt-auto flex justify-center">
-                    <span id="cat-a" class="bg-black bg-opacity-40 text-xs px-3 py-1 rounded-full text-white border border-white border-opacity-20">...</span>
-                </div>
+
+                <!-- Botón de Voto A -->
+                <button onclick="votar('A')" class="w-full max-w-sm bg-gray-900 hover:bg-sheikah-dark text-white py-3 px-4 rounded-xl border border-sheikah transition-all hover:scale-105 shadow-[0_0_15px_rgba(66,245,245,0.2)] hover:shadow-[0_0_20px_rgba(66,245,245,0.6)] flex items-center justify-center gap-2 group cursor-pointer">
+                    <i class="fa-solid fa-check text-gray-500 group-hover:text-sheikah-blue transition-colors"></i>
+                    <span>Prefiero: <span id="btn-text-a" class="font-bold text-sheikah-blue tracking-wide truncate inline-block max-w-[200px] align-bottom">Canción A</span></span>
+                </button>
             </div>
 
             <!-- VS Badge -->
@@ -132,28 +140,36 @@
                 VS
             </div>
 
-            <!-- Tarjeta B (Canción 2) -->
-            <div class="w-full md:w-5/12 bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col cursor-pointer" onclick="votar('B')" style="background-color: #e07a5f;">
-                <!-- Contenedor de portada CUADRADA y pequeña -->
-                <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
-                    <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
-                    <!-- Botón Play superpuesto -->
-                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)]" onclick="event.stopPropagation(); togglePlay('B');">
-                            <i id="icon-play-b" class="fa-solid fa-play ml-1"></i>
-                        </button>
+            <!-- Contenedor B (Canción 2) -->
+            <div class="w-full md:w-5/12 flex flex-col gap-4 items-center">
+                <!-- Tarjeta visual (Ya NO se puede hacer clic para votar) -->
+                <div class="w-full bg-sheikah-dark border-sheikah rounded-xl p-4 md:p-6 card-hover flex flex-col" style="background-color: #e07a5f;">
+                    <div class="relative w-4/5 mx-auto aspect-square rounded-lg overflow-hidden mb-6 group shadow-2xl border-2 border-white border-opacity-20">
+                        <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
+                        <!-- Botón Play superpuesto -->
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="w-16 h-16 bg-sheikah-blue rounded-full text-sheikah-dark flex items-center justify-center text-2xl hover:scale-110 transition-transform shadow-[0_0_15px_rgba(66,245,245,0.6)] cursor-pointer" onclick="togglePlay('B');">
+                                <i id="icon-play-b" class="fa-solid fa-play ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 id="title-b" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">Cargando...</h3>
+                    <p id="game-b" class="text-white text-center text-sm font-bold mb-3 opacity-90">Cargando...</p>
+                    <div class="mt-auto flex justify-center">
+                        <span id="cat-b" class="bg-black bg-opacity-40 text-xs px-3 py-1 rounded-full text-white border border-white border-opacity-20">...</span>
                     </div>
                 </div>
-                <h3 id="title-b" class="text-3xl fuente-zelda text-white text-center mb-2" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">Cargando...</h3>
-                <p id="game-b" class="text-white text-center text-sm font-bold mb-3 opacity-90">Cargando...</p>
-                <div class="mt-auto flex justify-center">
-                    <span id="cat-b" class="bg-black bg-opacity-40 text-xs px-3 py-1 rounded-full text-white border border-white border-opacity-20">...</span>
-                </div>
+
+                <!-- Botón de Voto B -->
+                <button onclick="votar('B')" class="w-full max-w-sm bg-gray-900 hover:bg-sheikah-dark text-white py-3 px-4 rounded-xl border border-sheikah transition-all hover:scale-105 shadow-[0_0_15px_rgba(66,245,245,0.2)] hover:shadow-[0_0_20px_rgba(66,245,245,0.6)] flex items-center justify-center gap-2 group cursor-pointer">
+                    <i class="fa-solid fa-check text-gray-500 group-hover:text-sheikah-blue transition-colors"></i>
+                    <span>Prefiero: <span id="btn-text-b" class="font-bold text-sheikah-blue tracking-wide truncate inline-block max-w-[200px] align-bottom">Canción B</span></span>
+                </button>
             </div>
 
         </div>
 
-        <!-- Botón Saltar -->
+        <!-- Botón Saltar (Se mantiene al centro y abajo) -->
         <div class="mt-10 flex justify-center gap-4">
             <button onclick="cargarNuevasCanciones()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-full border border-gray-600 transition-colors text-sm flex items-center gap-2 shadow-lg">
                 <i class="fa-solid fa-forward-step"></i> No conozco ambas / Saltar
@@ -228,11 +244,17 @@
             </div>
 
             <div class="w-full flex-grow flex items-center gap-3">
+                <!-- Nuevo botón de Play/Pausa central (Sirve para móviles y PC) -->
+                <button onclick="togglePlayBarra()" class="text-white hover:text-sheikah-blue transition-transform hover:scale-110 text-xl ml-2">
+                    <i id="icono-barra-play" class="fa-solid fa-pause"></i>
+                </button>
+                
                 <span id="tiempo-actual" class="text-xs text-gray-400 font-mono w-10 text-right">0:00</span>
                 <input type="range" id="barra-progreso" min="0" max="100" value="0" class="flex-grow" oninput="cambiarProgreso()">
                 <span id="tiempo-total" class="text-xs text-gray-400 font-mono w-10">0:00</span>
             </div>
 
+            <!-- Control de Volumen (Oculto en celulares porque el celular controla su propio volumen) -->
             <div class="hidden md:flex items-center gap-2 w-32 flex-shrink-0">
                 <i class="fa-solid fa-volume-low text-gray-400 text-xs"></i>
                 <input type="range" id="barra-volumen" min="0" max="1" step="0.05" value="1" oninput="cambiarVolumen()">
@@ -242,22 +264,22 @@
     </div>
 
     <script>
-        // BASE DE DATOS ACTUALIZADA
+        // BASE DE DATOS ACTUALIZADA CON LAS NUEVAS 8 CANCIONES (SIN APÓSTROFE)
         const baseDatosPorDefecto = [
             { id: "st-001", titulo: "File Select", juego: "Spirit Tracks", categoria: "Menú", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/st_file_select.mp3", portada: "portadas/st.png" },
             { id: "st-002", titulo: "Hyrule Castle", juego: "Spirit Tracks", categoria: "Castillo", color: "2a9d8f", elo: 1500, partidas: 0, archivo_audio: "canciones/st_hyrule_castle.mp3", portada: "portadas/st.png" },
             { id: "tp-001", titulo: "Hyrule Field", juego: "Twilight Princess", categoria: "Overworld", color: "e07a5f", elo: 1500, partidas: 0, archivo_audio: "canciones/tp_hyrule_field_orchestra.mp3", portada: "portadas/tp.jpg" },
             
-            // NUEVAS CANCIONES AÑADIDAS
+            // CANCIONES RECIÉN AGREGADAS
             { id: "botw-001", titulo: "Main Theme", juego: "Breath of the Wild", categoria: "Tema Principal", color: "42f5f5", elo: 1500, partidas: 0, archivo_audio: "canciones/botw_main_theme.mp3", portada: "portadas/botw.jpg" },
-            { id: "oot-001", titulo: "Fairy's Fountain", juego: "Ocarina of Time", categoria: "Fuente Hada", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_fairy's_fountain.mp3", portada: "portadas/oot.jpg" },
+            { id: "oot-001", titulo: "Fairy's Fountain", juego: "Ocarina of Time", categoria: "Fuente Hada", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_fairys_fountain.mp3", portada: "portadas/oot.jpg" }, // <- Apóstrofe corregido
             { id: "oot-002", titulo: "Hyrule Field", juego: "Ocarina of Time", categoria: "Overworld", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_hyrule_field.mp3", portada: "portadas/oot.jpg" },
             { id: "oot-003", titulo: "Shop Theme", juego: "Ocarina of Time", categoria: "Tienda", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_shop.mp3", portada: "portadas/oot.jpg" },
             { id: "oot-004", titulo: "Title Theme", juego: "Ocarina of Time", categoria: "Menú", color: "4caf50", elo: 1500, partidas: 0, archivo_audio: "canciones/oot_title_theme.mp3", portada: "portadas/oot.jpg" }
         ];
 
-        // Usamos '_v3' para forzar al navegador a borrar el historial viejo y cargar tu base de datos nueva
-        let canciones = JSON.parse(localStorage.getItem('zeldaRankingData_v3')) || baseDatosPorDefecto;
+        // Memoria actualizada a _v4 para limpiar la caché automáticamente y evitar errores
+        let canciones = JSON.parse(localStorage.getItem('zeldaRankingData_v4')) || baseDatosPorDefecto;
         
         canciones = canciones.map(c => {
             let original = baseDatosPorDefecto.find(b => b.id === c.id);
@@ -268,7 +290,7 @@
             return c;
         });
 
-        let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos_v3')) || 0;
+        let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos_v4')) || 0;
         let cancionA_actual = null;
         let cancionB_actual = null;
 
@@ -282,6 +304,29 @@
         const textoTiempoTotal = document.getElementById('tiempo-total');
         const textoBarraTitulo = document.getElementById('barra-titulo');
         const textoBarraJuego = document.getElementById('barra-juego');
+        
+        
+        // Evento: Cuando la música REPRODUCE, cambiamos TODOS los botones a 'Pausa' automáticamente
+        reproductorActual.addEventListener('play', () => {
+            document.getElementById('icono-barra-play').className = "fa-solid fa-pause";
+            let iconoA = document.getElementById('icon-play-a');
+            let iconoB = document.getElementById('icon-play-b');
+            
+            if(cancionSonando === 'A') {
+                iconoA.className = "fa-solid fa-pause";
+                iconoB.className = "fa-solid fa-play ml-1";
+            } else if (cancionSonando === 'B') {
+                iconoB.className = "fa-solid fa-pause";
+                iconoA.className = "fa-solid fa-play ml-1";
+            }
+        });
+
+        // Evento: Cuando la música se PAUSA, cambiamos TODOS los botones a 'Play' automáticamente
+        reproductorActual.addEventListener('pause', () => {
+            document.getElementById('icono-barra-play').className = "fa-solid fa-play ml-1";
+            document.getElementById('icon-play-a').className = "fa-solid fa-play ml-1";
+            document.getElementById('icon-play-b').className = "fa-solid fa-play ml-1";
+        });
 
         function formatoTiempo(segundos) {
             if (isNaN(segundos)) return "0:00";
@@ -317,56 +362,50 @@
             reproductorActual.pause();
             cancionSonando = null;
             barraReproductor.classList.add('hidden');
-            if(document.getElementById('icon-play-a')) {
-                document.getElementById('icon-play-a').className = "fa-solid fa-play ml-1";
-                document.getElementById('icon-play-b').className = "fa-solid fa-play ml-1";
+        }
+
+        // Función del botón Play/Pausa de la barra inferior
+        function togglePlayBarra() {
+            if (!reproductorActual.paused) {
+                reproductorActual.pause();
+            } else {
+                reproductorActual.play();
             }
         }
 
+        // Función de los botones Play de las tarjetas
         function togglePlay(opcion) {
             let cancionElegida = opcion === 'A' ? cancionA_actual : cancionB_actual;
-            let iconoA = document.getElementById('icon-play-a');
-            let iconoB = document.getElementById('icon-play-b');
             
+            // Si hace clic en la misma canción que está sonando o pausada
             if (cancionSonando === opcion) {
-                if (!reproductorActual.paused) {
-                    reproductorActual.pause();
-                    if(opcion === 'A') iconoA.className = "fa-solid fa-play ml-1";
-                    else iconoB.className = "fa-solid fa-play ml-1";
-                } else {
-                    reproductorActual.play();
-                    if(opcion === 'A') iconoA.className = "fa-solid fa-pause";
-                    else iconoB.className = "fa-solid fa-pause";
-                }
+                if (!reproductorActual.paused) reproductorActual.pause();
+                else reproductorActual.play();
                 return;
             }
 
+            // Si hace clic en una canción diferente
             reproductorActual.pause();
-            iconoA.className = "fa-solid fa-play ml-1";
-            iconoB.className = "fa-solid fa-play ml-1";
 
             if (cancionElegida.archivo_audio) {
-                // El código está limpio (sin el parche temporal)
                 reproductorActual.src = cancionElegida.archivo_audio;
                 
                 barraReproductor.classList.remove('hidden');
                 textoBarraTitulo.innerText = cancionElegida.titulo;
                 textoBarraJuego.innerText = cancionElegida.juego;
                 
+                cancionSonando = opcion;
+                
                 reproductorActual.play().catch(e => {
                     mostrarMensaje("Error de Audio", "No se encontró el audio. ¿Seguro que subiste el archivo '" + cancionElegida.archivo_audio + "' a tu GitHub?");
                     barraReproductor.classList.add('hidden');
                 });
-                
-                cancionSonando = opcion;
-                if(opcion === 'A') iconoA.className = "fa-solid fa-pause";
-                else iconoB.className = "fa-solid fa-pause";
             }
         }
 
         function guardarDatos() {
-            localStorage.setItem('zeldaRankingData_v3', JSON.stringify(canciones));
-            localStorage.setItem('zeldaRankingVotos_v3', totalVotos);
+            localStorage.setItem('zeldaRankingData_v4', JSON.stringify(canciones));
+            localStorage.setItem('zeldaRankingVotos_v4', totalVotos);
             actualizarContadores();
         }
 
@@ -394,8 +433,8 @@
         }
 
         function ejecutarReinicio() {
-            localStorage.removeItem('zeldaRankingData_v3');
-            localStorage.removeItem('zeldaRankingVotos_v3');
+            localStorage.removeItem('zeldaRankingData_v4');
+            localStorage.removeItem('zeldaRankingVotos_v4');
             canciones = JSON.parse(JSON.stringify(baseDatosPorDefecto));
             totalVotos = 0;
             guardarDatos();
@@ -417,17 +456,21 @@
             cancionA_actual = canciones[indiceA];
             cancionB_actual = canciones[indiceB];
 
+            // Inyectar textos a la tarjeta A
             document.getElementById('title-a').innerText = cancionA_actual.titulo;
             document.getElementById('game-a').innerText = cancionA_actual.juego;
             document.getElementById('cat-a').innerText = cancionA_actual.categoria;
             document.getElementById('img-a').parentNode.parentNode.style.backgroundColor = '#' + cancionA_actual.color;
             document.getElementById('img-a').src = cancionA_actual.portada;
+            document.getElementById('btn-text-a').innerText = cancionA_actual.titulo;
 
+            // Inyectar textos a la tarjeta B
             document.getElementById('title-b').innerText = cancionB_actual.titulo;
             document.getElementById('game-b').innerText = cancionB_actual.juego;
             document.getElementById('cat-b').innerText = cancionB_actual.categoria;
             document.getElementById('img-b').parentNode.parentNode.style.backgroundColor = '#' + cancionB_actual.color;
             document.getElementById('img-b').src = cancionB_actual.portada;
+            document.getElementById('btn-text-b').innerText = cancionB_actual.titulo;
         }
 
         function calcularElo(eloGanador, eloPerdedor) {
