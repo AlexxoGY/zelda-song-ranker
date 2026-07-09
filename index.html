@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zelda Song Ranker</title>
     
+    <!-- Favicon de la Trifuerza (Icono de Pestaña) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 10 L100 90 L0 90 Z M50 90 L75 50 L25 50 Z' fill='%23FFD700' fill-rule='evenodd'/></svg>" type="image/svg+xml">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,9 +34,11 @@
             color: white;
             min-height: 100vh;
             
+            /* Cursor de Trifuerza Inclinado Normal */
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate(-30 12 12)'%3E%3Cpath d='M12 2 L22 20 L2 20 Z' fill='%23FFD700' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M12 11 L17 20 L7 20 Z' fill='%230d1117' stroke='%23000' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E") 7 3, auto;
         }
         
+        /* Cursor de Trifuerza Inclinado Sheikah (Hover) */
         button, a, input[type="range"], input[type="range"]::-webkit-slider-thumb, .cursor-pointer, .hover-boton {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate(-30 12 12)'%3E%3Cpath d='M12 2 L22 20 L2 20 Z' fill='%2342f5f5' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M12 11 L17 20 L7 20 Z' fill='%230d1117' stroke='%23000' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E") 7 3, pointer !important;
         }
@@ -45,6 +48,7 @@
         .border-sheikah { border: 1px solid rgba(66, 245, 245, 0.4); }
         .border-sheikah-grueso { border: 2px solid rgba(66, 245, 245, 0.8); }
         
+        /* Efecto Hover Aislado (Solo aumenta tamaño y brilla) */
         .hover-tarjeta {
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -75,6 +79,7 @@
             text-shadow: 0 0 8px rgba(66, 245, 245, 0.8);
         }
 
+        /* Fotogramas clave para animación de Envoltura (Wrappers) */
         @keyframes slideInL {
             0% { transform: translateX(-60px); opacity: 0; }
             100% { transform: translateX(0); opacity: 1; }
@@ -85,10 +90,9 @@
         }
         @keyframes fadeDelay {
             0% { opacity: 0; transform: translateY(15px); }
-            40% { opacity: 0; transform: translateY(15px); } /* Retraso invisible */
+            40% { opacity: 0; transform: translateY(15px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes fadeDelayBadge {
             0% { opacity: 0; transform: translate(-50%, calc(-50% + 15px)) rotate(45deg); }
             40% { opacity: 0; transform: translate(-50%, calc(-50% + 15px)) rotate(45deg); }
@@ -102,6 +106,7 @@
 
         .modal-hidden { display: none !important; }
 
+        /* Estilo custom para las barras de audio */
         input[type=range] {
             -webkit-appearance: none;
             background: transparent;
@@ -141,7 +146,7 @@
                 <div class="hidden md:block text-sm text-gray-400 uppercase tracking-widest font-bold font-mono">
                     Votos: <span id="contador-votos" class="text-sheikah-blue">0</span>
                 </div>
-                <button onclick="bajarAlRanking()" class="lg:hidden bg-transparent hover:bg-gray-800 text-sheikah-blue px-3 py-2 border border-sheikah transition-colors font-bold flex items-center gap-2 hover-boton">
+                <button onclick="bajarAlRanking()" class="lg:hidden bg-transparent hover:bg-gray-800 text-sheikah-blue px-3 py-2 border border-sheikah transition-colors font-bold flex items-center gap-2 hover-boton cursor-pointer">
                     <i class="fa-solid fa-arrow-down"></i>
                 </button>
             </div>
@@ -164,71 +169,87 @@
                     
                     <!-- Tarjeta A (Izquierda) -->
                     <div class="flex-1 min-w-0 flex flex-col items-center gap-4 w-full">
-                        <div id="card-a-container" class="w-full bg-sheikah-dark border-sheikah p-6 flex flex-col hover-tarjeta relative" style="background-color: #1a1a2e; border-width: 2px;">
-                            <div class="relative w-4/5 mx-auto aspect-square overflow-hidden mb-6 group border-2 border-white border-opacity-20 bg-black shadow-lg">
-                                <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button class="w-16 h-16 bg-transparent border-2 border-sheikah-blue text-sheikah-blue flex items-center justify-center text-3xl hover:bg-sheikah-blue hover:text-black transition-colors cursor-pointer" onclick="togglePlay('A');">
-                                        <i id="icon-play-a" class="fa-solid fa-play"></i>
-                                    </button>
+                        
+                        <!-- Wrapper Animación -->
+                        <div id="anim-card-a" class="w-full">
+                            <!-- Contenedor Hover -->
+                            <div id="card-a-container" class="w-full bg-sheikah-dark border-sheikah p-6 flex flex-col hover-tarjeta relative" style="background-color: #1a1a2e; border-width: 2px;">
+                                <div class="relative w-4/5 mx-auto aspect-square overflow-hidden mb-6 group border-2 border-white border-opacity-20 bg-black shadow-lg">
+                                    <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button class="w-16 h-16 bg-transparent border-2 border-sheikah-blue text-sheikah-blue flex items-center justify-center text-3xl hover:bg-sheikah-blue hover:text-black transition-colors cursor-pointer" onclick="togglePlay('A');">
+                                            <i id="icon-play-a" class="fa-solid fa-play"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <h3 id="title-a" class="text-3xl fuente-zelda text-white text-center mb-2 truncate px-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,1);">Cargando...</h3>
-                            <p id="game-a" class="text-sheikah-blue text-center text-sm font-bold uppercase tracking-widest mb-3 truncate px-2">Cargando...</p>
-                            <div class="mt-auto flex justify-center">
-                                <span id="cat-a" class="bg-black bg-opacity-60 text-xs px-3 py-1 text-gray-300 border border-gray-600 font-mono truncate max-w-full">...</span>
+                                <h3 id="title-a" class="text-3xl fuente-zelda text-white text-center mb-2 truncate px-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,1);">Cargando...</h3>
+                                <p id="game-a" class="text-sheikah-blue text-center text-sm font-bold uppercase tracking-widest mb-3 truncate px-2">Cargando...</p>
+                                <div class="mt-auto flex justify-center">
+                                    <span id="cat-a" class="bg-black bg-opacity-60 text-xs px-3 py-1 text-gray-300 border border-gray-600 font-mono truncate max-w-full">...</span>
+                                </div>
                             </div>
                         </div>
 
-                        <button id="btn-voto-a" onclick="votar('A')" class="w-full bg-black py-4 px-4 border border-sheikah hover-boton flex items-center justify-center gap-3">
-                            <i class="fa-solid fa-check text-gray-500 icono-voto text-lg"></i>
-                            <div class="truncate flex items-baseline gap-2">
-                                <span class="font-mono text-xs tracking-widest text-gray-400 uppercase">PREFIERO:</span>
-                                <span id="btn-text-a" class="text-white fuente-zelda tracking-wider text-xl" style="text-shadow: 1px 1px 3px rgba(0,0,0,1);">Canción A</span>
-                            </div>
-                        </button>
+                        <!-- Wrapper Animación Botón -->
+                        <div id="anim-btn-a" class="w-full">
+                            <button id="btn-voto-a" onclick="votar('A')" class="w-full bg-black py-4 px-4 border border-sheikah hover-boton flex items-center justify-center gap-3 cursor-pointer">
+                                <i class="fa-solid fa-check text-gray-500 icono-voto text-lg"></i>
+                                <div class="truncate flex items-baseline gap-2">
+                                    <span class="font-mono text-xs tracking-widest text-gray-400 uppercase">PREFIERO:</span>
+                                    <span id="btn-text-a" class="text-white fuente-zelda tracking-wider text-xl" style="text-shadow: 1px 1px 3px rgba(0,0,0,1);">Canción A</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
 
                     <div id="vs-badge" class="absolute top-[calc(50%-36px)] left-1/2 hidden md:flex flex-shrink-0 bg-black border-2 border-sheikah w-14 h-14 items-center justify-center shadow-[0_0_20px_rgba(66,245,245,0.4)] z-10" style="transform: translate(-50%, -50%) rotate(45deg);">
-                        <span style="transform: rotate(-45deg);" class="fuente-zelda text-2xl text-white">VS</span>
+                        <span style="transform: rotate(-45deg);" class="text-2xl text-white">VS</span>
                     </div>
+                    
                     <div class="md:hidden flex justify-center w-full py-2">
                         <div class="bg-black border-2 border-sheikah p-2 px-6 font-bold text-sheikah-blue text-xl font-mono tracking-widest shadow-[0_0_15px_rgba(66,245,245,0.3)]">VS</div>
                     </div>
 
                     <!-- Tarjeta B (Derecha) -->
                     <div class="flex-1 min-w-0 flex flex-col items-center gap-4 w-full">
-                        <div id="card-b-container" class="w-full bg-sheikah-dark border-sheikah p-6 flex flex-col hover-tarjeta relative" style="background-color: #1a1a2e; border-width: 2px;">
-                            <div class="relative w-4/5 mx-auto aspect-square overflow-hidden mb-6 group border-2 border-white border-opacity-20 bg-black shadow-lg">
-                                <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button class="w-16 h-16 bg-transparent border-2 border-sheikah-blue text-sheikah-blue flex items-center justify-center text-3xl hover:bg-sheikah-blue hover:text-black transition-colors cursor-pointer" onclick="togglePlay('B');">
-                                        <i id="icon-play-b" class="fa-solid fa-play"></i>
-                                    </button>
+                        
+                        <!-- Wrapper Animación -->
+                        <div id="anim-card-b" class="w-full">
+                            <div id="card-b-container" class="w-full bg-sheikah-dark border-sheikah p-6 flex flex-col hover-tarjeta relative" style="background-color: #1a1a2e; border-width: 2px;">
+                                <div class="relative w-4/5 mx-auto aspect-square overflow-hidden mb-6 group border-2 border-white border-opacity-20 bg-black shadow-lg">
+                                    <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button class="w-16 h-16 bg-transparent border-2 border-sheikah-blue text-sheikah-blue flex items-center justify-center text-3xl hover:bg-sheikah-blue hover:text-black transition-colors cursor-pointer" onclick="togglePlay('B');">
+                                            <i id="icon-play-b" class="fa-solid fa-play"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <h3 id="title-b" class="text-3xl fuente-zelda text-white text-center mb-2 truncate px-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,1);">Cargando...</h3>
-                            <p id="game-b" class="text-sheikah-blue text-center text-sm font-bold uppercase tracking-widest mb-3 truncate px-2">Cargando...</p>
-                            <div class="mt-auto flex justify-center">
-                                <span id="cat-b" class="bg-black bg-opacity-60 text-xs px-3 py-1 text-gray-300 border border-gray-600 font-mono truncate max-w-full">...</span>
+                                <h3 id="title-b" class="text-3xl fuente-zelda text-white text-center mb-2 truncate px-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,1);">Cargando...</h3>
+                                <p id="game-b" class="text-sheikah-blue text-center text-sm font-bold uppercase tracking-widest mb-3 truncate px-2">Cargando...</p>
+                                <div class="mt-auto flex justify-center">
+                                    <span id="cat-b" class="bg-black bg-opacity-60 text-xs px-3 py-1 text-gray-300 border border-gray-600 font-mono truncate max-w-full">...</span>
+                                </div>
                             </div>
                         </div>
 
-                        <button id="btn-voto-b" onclick="votar('B')" class="w-full bg-black py-4 px-4 border border-sheikah hover-boton flex items-center justify-center gap-3">
-                            <i class="fa-solid fa-check text-gray-500 icono-voto text-lg"></i>
-                            <div class="truncate flex items-baseline gap-2">
-                                <span class="font-mono text-xs tracking-widest text-gray-400 uppercase">PREFIERO:</span>
-                                <span id="btn-text-b" class="text-white fuente-zelda tracking-wider text-xl" style="text-shadow: 1px 1px 3px rgba(0,0,0,1);">Canción B</span>
-                            </div>
-                        </button>
+                        <!-- Wrapper Animación Botón -->
+                        <div id="anim-btn-b" class="w-full">
+                            <button id="btn-voto-b" onclick="votar('B')" class="w-full bg-black py-4 px-4 border border-sheikah hover-boton flex items-center justify-center gap-3 cursor-pointer">
+                                <i class="fa-solid fa-check text-gray-500 icono-voto text-lg"></i>
+                                <div class="truncate flex items-baseline gap-2">
+                                    <span class="font-mono text-xs tracking-widest text-gray-400 uppercase">PREFIERO:</span>
+                                    <span id="btn-text-b" class="text-white fuente-zelda tracking-wider text-xl" style="text-shadow: 1px 1px 3px rgba(0,0,0,1);">Canción B</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- Botón Saltar con Delay -->
-            <div id="btn-saltar" class="mt-12 w-full flex justify-center">
-                <button onclick="cargarNuevasCanciones()" class="bg-transparent hover:bg-gray-900 text-gray-400 hover:text-white px-8 py-3 border border-gray-700 transition-colors text-sm font-mono tracking-widest flex items-center gap-2 uppercase hover-boton">
+            <!-- Botón Saltar con Wrapper de Animación -->
+            <div id="anim-btn-saltar" class="mt-12 w-full flex justify-center">
+                <button onclick="cargarNuevasCanciones()" class="bg-transparent hover:bg-gray-900 text-gray-400 hover:text-white px-8 py-3 border border-gray-700 transition-colors text-sm font-mono tracking-widest flex items-center gap-2 uppercase hover-boton cursor-pointer">
                     <i class="fa-solid fa-forward-step"></i> No conozco ambas / Saltar
                 </button>
             </div>
@@ -241,10 +262,11 @@
                 </h2>
             </div>
             <div class="p-0 overflow-y-auto flex-grow" id="lista-ranking-panel">
+                <!-- Se rellena por JS -->
             </div>
             <div class="p-3 border-t border-gray-800 bg-black flex justify-between items-center">
                 <p class="text-[10px] text-gray-500 font-mono">ESTADÍSTICAS GLOBALES</p>
-                <button onclick="confirmarReinicio()" class="bg-transparent hover:bg-red-900 text-red-500 px-3 py-1 border border-red-900 transition-colors text-xs flex items-center gap-1 font-mono uppercase tracking-widest hover-boton">
+                <button onclick="confirmarReinicio()" class="bg-transparent hover:bg-red-900 text-red-500 px-3 py-1 border border-red-900 transition-colors text-xs flex items-center gap-1 font-mono uppercase tracking-widest hover-boton cursor-pointer">
                     <i class="fa-solid fa-trash"></i> Reiniciar
                 </button>
             </div>
@@ -259,7 +281,7 @@
             </div>
             <div class="p-8 text-center text-gray-300 font-mono text-sm leading-relaxed" id="modal-mensaje-texto"></div>
             <div class="p-4 border-t border-gray-800 bg-black flex justify-center">
-                <button onclick="cerrarMensaje()" class="bg-transparent border border-sheikah-blue text-sheikah-blue hover:bg-sheikah-blue hover:text-black font-bold px-8 py-2 transition-colors font-mono tracking-widest uppercase hover-boton">
+                <button onclick="cerrarMensaje()" class="bg-transparent border border-sheikah-blue text-sheikah-blue hover:bg-sheikah-blue hover:text-black font-bold px-8 py-2 transition-colors font-mono tracking-widest uppercase hover-boton cursor-pointer">
                     ACEPTAR
                 </button>
             </div>
@@ -275,10 +297,10 @@
                 ¿Estás seguro de que quieres borrar todo tu progreso y el ranking actual?
             </div>
             <div class="p-4 border-t border-gray-800 bg-black flex justify-center gap-4">
-                <button onclick="cerrarConfirmacion()" class="bg-transparent border border-gray-600 text-gray-400 hover:text-white hover:border-white px-4 py-2 transition-colors font-mono uppercase tracking-widest text-xs hover-boton">
+                <button onclick="cerrarConfirmacion()" class="bg-transparent border border-gray-600 text-gray-400 hover:text-white hover:border-white px-4 py-2 transition-colors font-mono uppercase tracking-widest text-xs hover-boton cursor-pointer">
                     CANCELAR
                 </button>
-                <button onclick="ejecutarReinicio()" class="bg-red-900 border border-red-700 hover:bg-red-700 text-white px-4 py-2 transition-colors font-mono uppercase tracking-widest text-xs hover-boton">
+                <button onclick="ejecutarReinicio()" class="bg-red-900 border border-red-700 hover:bg-red-700 text-white px-4 py-2 transition-colors font-mono uppercase tracking-widest text-xs hover-boton cursor-pointer">
                     SÍ, BORRAR
                 </button>
             </div>
@@ -288,7 +310,7 @@
     <div id="reproductor-barra" class="hidden fixed bottom-0 left-0 w-full bg-black border-t-2 border-sheikah p-3 z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.9)]">
         <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-4 px-2 md:px-6">
             
-            <button onclick="cerrarReproductor()" class="text-gray-500 hover:text-red-500 transition-colors p-2 border border-gray-800 bg-transparent flex-shrink-0 hover-boton">
+            <button onclick="cerrarReproductor()" class="text-gray-500 hover:text-red-500 transition-colors p-2 border border-gray-800 bg-transparent flex-shrink-0 hover-boton cursor-pointer">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
 
@@ -298,18 +320,18 @@
             </div>
 
             <div class="w-full flex-grow flex items-center gap-3">
-                <button onclick="togglePlayBarra()" class="text-white hover:text-sheikah-blue transition-transform text-xl w-8 hover:scale-110 hover-boton">
+                <button onclick="togglePlayBarra()" class="text-white hover:text-sheikah-blue transition-transform text-xl w-8 hover:scale-110 hover-boton cursor-pointer">
                     <i id="icono-barra-play" class="fa-solid fa-play"></i>
                 </button>
                 
                 <span id="tiempo-actual" class="text-xs text-gray-400 font-mono w-10 text-right">0:00</span>
-                <input type="range" id="barra-progreso" min="0" max="100" value="0" class="flex-grow" oninput="cambiarProgreso()">
+                <input type="range" id="barra-progreso" min="0" max="100" value="0" class="flex-grow cursor-pointer" oninput="cambiarProgreso()">
                 <span id="tiempo-total" class="text-xs text-gray-400 font-mono w-10">0:00</span>
             </div>
 
             <div class="hidden md:flex items-center gap-3 w-32 flex-shrink-0">
                 <i class="fa-solid fa-volume-low text-gray-500 text-xs"></i>
-                <input type="range" id="barra-volumen" min="0" max="1" step="0.05" value="1" oninput="cambiarVolumen()">
+                <input type="range" id="barra-volumen" min="0" max="1" step="0.05" value="1" oninput="cambiarVolumen()" class="cursor-pointer">
                 <i class="fa-solid fa-volume-high text-gray-500 text-xs"></i>
             </div>
         </div>
@@ -341,6 +363,7 @@
         let totalVotos = parseInt(localStorage.getItem('zeldaRankingVotos_v5')) || 0;
         let cancionA_actual = null;
         let cancionB_actual = null;
+        let cargaInicial = true; // Variable para controlar las animaciones iniciales
 
         let reproductorActual = new Audio();
         let cancionSonando = null; 
@@ -437,7 +460,7 @@
                 cancionSonando = opcion;
                 
                 reproductorActual.play().catch(e => {
-                    mostrarMensaje("Error de Audio", "No se encontró el audio de esta canción.");
+                    mostrarMensaje("Error de Audio", "No se encontró el audio. ¿Seguro que subiste el archivo '" + cancionElegida.archivo_audio + "' a tu GitHub?");
                     barraReproductor.classList.add('hidden');
                 });
             }
@@ -464,7 +487,7 @@
                 cancionSonando = idCancion; 
                 
                 reproductorActual.play().catch(e => {
-                    mostrarMensaje("Error de Audio", "No se encontró el audio de esta canción.");
+                    mostrarMensaje("Error de Audio", "No se encontró el audio. ¿Seguro que subiste el archivo '" + cancion.archivo_audio + "' a tu GitHub?");
                     barraReproductor.classList.add('hidden');
                 });
             }
@@ -501,7 +524,7 @@
                             <div class="text-xs font-mono text-white tracking-widest leading-none">${cancion.elo}</div>
                             <div class="text-[9px] text-gray-500 font-mono tracking-widest leading-none mt-1">${cancion.partidas} VS</div>
                         </div>
-                        <div class="hidden group-hover:flex text-sheikah-blue text-xl w-full h-full items-center justify-center transition-transform hover:scale-125">
+                        <div class="hidden group-hover:flex text-sheikah-blue text-xl w-full h-full items-center justify-center transition-transform hover:scale-125 cursor-pointer">
                             <i class="fa-solid fa-play" style="filter: drop-shadow(0 0 5px rgba(66,245,245,0.8));"></i>
                         </div>
                     </div>
@@ -550,6 +573,7 @@
             canciones = JSON.parse(JSON.stringify(baseDatosPorDefecto));
             totalVotos = 0;
             guardarDatos();
+            cargaInicial = true; // Reiniciar toda la animación
             cargarNuevasCanciones();
             cerrarConfirmacion();
             cerrarReproductor();
@@ -579,26 +603,43 @@
             document.getElementById('img-b').src = cancionB_actual.portada;
             document.getElementById('btn-text-b').innerText = cancionB_actual.titulo;
 
-            // Disparador mágico para reiniciar animaciones
-            const cardA = document.getElementById('card-a-container');
-            const cardB = document.getElementById('card-b-container');
-            const btnA = document.getElementById('btn-voto-a');
-            const btnB = document.getElementById('btn-voto-b');
+            // Variables de las capas Envoltura (Wrappers de Animación)
+            const animCardA = document.getElementById('anim-card-a');
+            const animCardB = document.getElementById('anim-card-b');
+            const animBtnA = document.getElementById('anim-btn-a');
+            const animBtnB = document.getElementById('anim-btn-b');
             const vsBadge = document.getElementById('vs-badge');
-            const btnSaltar = document.getElementById('btn-saltar');
+            const animBtnSaltar = document.getElementById('anim-btn-saltar');
 
-            // Quitar clases
-            cardA.classList.remove('anim-l'); cardB.classList.remove('anim-r');
-            btnA.classList.remove('anim-delay'); btnB.classList.remove('anim-delay');
-            vsBadge.classList.remove('anim-delay-badge'); btnSaltar.classList.remove('anim-delay');
+            // Quitar clases para resetear animación (Siempre en las tarjetas)
+            animCardA.classList.remove('anim-l'); 
+            animCardB.classList.remove('anim-r');
+            
+            // Los botones solo pierden su clase si es la carga inicial (para que no se vuelvan a animar)
+            if (cargaInicial) {
+                animBtnA.classList.remove('anim-delay'); 
+                animBtnB.classList.remove('anim-delay');
+                vsBadge.classList.remove('anim-delay-badge'); 
+                animBtnSaltar.classList.remove('anim-delay');
+            }
 
             // Forzar reflow (Resetear el reloj del navegador)
-            void cardA.offsetWidth;
+            void animCardA.offsetWidth;
 
-            // Poner clases otra vez
-            cardA.classList.add('anim-l'); cardB.classList.add('anim-r');
-            btnA.classList.add('anim-delay'); btnB.classList.add('anim-delay');
-            vsBadge.classList.add('anim-delay-badge'); btnSaltar.classList.add('anim-delay');
+            // Volver a aplicar animación a las tarjetas
+            animCardA.classList.add('anim-l'); 
+            animCardB.classList.add('anim-r');
+            
+            // Volver a aplicar a los botones SOLO si es la primera vez
+            if (cargaInicial) {
+                animBtnA.classList.add('anim-delay'); 
+                animBtnB.classList.add('anim-delay');
+                vsBadge.classList.add('anim-delay-badge'); 
+                animBtnSaltar.classList.add('anim-delay');
+                
+                // Apagar la carga inicial para futuras rondas
+                cargaInicial = false; 
+            }
         }
 
         function calcularElo(eloGanador, eloPerdedor) {
