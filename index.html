@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zelda Song Ranker</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 10 L100 90 L0 90 Z M50 90 L75 50 L25 50 Z' fill='%23FFD700' fill-rule='evenodd'/></svg>" type="image/svg+xml">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Fuente Lora para el texto general (estilo Hyrule Warriors) -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
@@ -31,11 +33,9 @@
             color: white;
             min-height: 100vh;
             
-            /* Trifuerza Dorada Normal ROTADA -30grados (hotspot ajustado a 7 3) */
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate(-30 12 12)'%3E%3Cpath d='M12 2 L22 20 L2 20 Z' fill='%23FFD700' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M12 11 L17 20 L7 20 Z' fill='%230d1117' stroke='%23000' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E") 7 3, auto;
         }
         
-        /* Trifuerza Azul Sheikah para botones y enlaces ROTADA -30grados */
         button, a, input[type="range"], input[type="range"]::-webkit-slider-thumb, .cursor-pointer, .hover-boton {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate(-30 12 12)'%3E%3Cpath d='M12 2 L22 20 L2 20 Z' fill='%2342f5f5' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M12 11 L17 20 L7 20 Z' fill='%230d1117' stroke='%23000' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E") 7 3, pointer !important;
         }
@@ -45,7 +45,6 @@
         .border-sheikah { border: 1px solid rgba(66, 245, 245, 0.4); }
         .border-sheikah-grueso { border: 2px solid rgba(66, 245, 245, 0.8); }
         
-        /* Animaciones para las tarjetas sin bordes curvos */
         .hover-tarjeta {
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -55,7 +54,6 @@
             border-color: #42f5f5;
         }
 
-        /* Animaciones para los botones cuadrados */
         .hover-boton {
             transition: all 0.2s ease-in-out;
             position: relative;
@@ -68,7 +66,6 @@
             box-shadow: 0 0 15px rgba(66, 245, 245, 0.4);
         }
 
-        /* Animación fluida y rebote para la palomita */
         .icono-voto {
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
@@ -78,9 +75,33 @@
             text-shadow: 0 0 8px rgba(66, 245, 245, 0.8);
         }
 
+        @keyframes slideInL {
+            0% { transform: translateX(-60px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideInR {
+            0% { transform: translateX(60px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeDelay {
+            0% { opacity: 0; transform: translateY(15px); }
+            40% { opacity: 0; transform: translateY(15px); } /* Retraso invisible */
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeDelayBadge {
+            0% { opacity: 0; transform: translate(-50%, calc(-50% + 15px)) rotate(45deg); }
+            40% { opacity: 0; transform: translate(-50%, calc(-50% + 15px)) rotate(45deg); }
+            100% { opacity: 1; transform: translate(-50%, -50%) rotate(45deg); }
+        }
+
+        .anim-l { animation: slideInL 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        .anim-r { animation: slideInR 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        .anim-delay { animation: fadeDelay 1.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        .anim-delay-badge { animation: fadeDelayBadge 1.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+
         .modal-hidden { display: none !important; }
 
-        /* Estilo cuadrado para la barra de volumen/progreso */
         input[type=range] {
             -webkit-appearance: none;
             background: transparent;
@@ -129,7 +150,6 @@
 
     <div class="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row flex-grow px-2 md:px-6 py-8 gap-8 mb-24">
         
-        <!-- SECCIÓN IZQUIERDA: TARJETAS DE VOTACIÓN -->
         <main class="w-full lg:w-2/3 flex flex-col items-center">
             
             <div class="text-center mb-10 w-full border-b border-gray-700 pb-4">
@@ -139,14 +159,12 @@
                 </div>
             </div>
 
-            <!-- Contenedor de Batalla -->
             <div class="flex flex-col gap-4 w-full relative">
                 <div class="flex flex-col md:flex-row gap-6 md:gap-8 items-stretch justify-center w-full relative">
                     
-                    <!-- Tarjeta A -->
+                    <!-- Tarjeta A (Izquierda) -->
                     <div class="flex-1 min-w-0 flex flex-col items-center gap-4 w-full">
-                        <div class="w-full bg-sheikah-dark border-sheikah p-6 flex flex-col hover-tarjeta relative" style="background-color: #1a1a2e; border-width: 2px;">
-                            <!-- Imagen cuadrada -->
+                        <div id="card-a-container" class="w-full bg-sheikah-dark border-sheikah p-6 flex flex-col hover-tarjeta relative" style="background-color: #1a1a2e; border-width: 2px;">
                             <div class="relative w-4/5 mx-auto aspect-square overflow-hidden mb-6 group border-2 border-white border-opacity-20 bg-black shadow-lg">
                                 <img id="img-a" src="" alt="Portada A" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -162,28 +180,25 @@
                             </div>
                         </div>
 
-                        <!-- Botón de Voto A (con Palomita y Tipografía Mixta) -->
-                        <button onclick="votar('A')" class="w-full bg-black py-4 px-4 border border-sheikah hover-boton flex items-center justify-center gap-3">
+                        <button id="btn-voto-a" onclick="votar('A')" class="w-full bg-black py-4 px-4 border border-sheikah hover-boton flex items-center justify-center gap-3">
                             <i class="fa-solid fa-check text-gray-500 icono-voto text-lg"></i>
                             <div class="truncate flex items-baseline gap-2">
-                                <span class="font-mono text-xs tracking-widest text-gray-400 uppercase">Prefiero:</span>
+                                <span class="font-mono text-xs tracking-widest text-gray-400 uppercase">PREFIERO:</span>
                                 <span id="btn-text-a" class="text-white fuente-zelda tracking-wider text-xl" style="text-shadow: 1px 1px 3px rgba(0,0,0,1);">Canción A</span>
                             </div>
                         </button>
                     </div>
 
-                    <!-- Símbolo VS en el centro exacto (top calculado para ignorar los botones de abajo) -->
-                    <div class="absolute top-[calc(50%-36px)] left-1/2 hidden md:flex flex-shrink-0 bg-black border-2 border-sheikah w-14 h-14 items-center justify-center shadow-[0_0_20px_rgba(66,245,245,0.4)] z-10" style="transform: translate(-50%, -50%) rotate(45deg);">
+                    <div id="vs-badge" class="absolute top-[calc(50%-36px)] left-1/2 hidden md:flex flex-shrink-0 bg-black border-2 border-sheikah w-14 h-14 items-center justify-center shadow-[0_0_20px_rgba(66,245,245,0.4)] z-10" style="transform: translate(-50%, -50%) rotate(45deg);">
                         <span style="transform: rotate(-45deg);" class="fuente-zelda text-2xl text-white">VS</span>
                     </div>
                     <div class="md:hidden flex justify-center w-full py-2">
                         <div class="bg-black border-2 border-sheikah p-2 px-6 font-bold text-sheikah-blue text-xl font-mono tracking-widest shadow-[0_0_15px_rgba(66,245,245,0.3)]">VS</div>
                     </div>
 
-                    <!-- Tarjeta B -->
+                    <!-- Tarjeta B (Derecha) -->
                     <div class="flex-1 min-w-0 flex flex-col items-center gap-4 w-full">
-                        <div class="w-full bg-sheikah-dark border-sheikah p-6 flex flex-col hover-tarjeta relative" style="background-color: #1a1a2e; border-width: 2px;">
-                            <!-- Imagen cuadrada -->
+                        <div id="card-b-container" class="w-full bg-sheikah-dark border-sheikah p-6 flex flex-col hover-tarjeta relative" style="background-color: #1a1a2e; border-width: 2px;">
                             <div class="relative w-4/5 mx-auto aspect-square overflow-hidden mb-6 group border-2 border-white border-opacity-20 bg-black shadow-lg">
                                 <img id="img-b" src="" alt="Portada B" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -199,11 +214,10 @@
                             </div>
                         </div>
 
-                        <!-- Botón de Voto B (con Palomita y Tipografía Mixta) -->
-                        <button onclick="votar('B')" class="w-full bg-black py-4 px-4 border border-sheikah hover-boton flex items-center justify-center gap-3">
+                        <button id="btn-voto-b" onclick="votar('B')" class="w-full bg-black py-4 px-4 border border-sheikah hover-boton flex items-center justify-center gap-3">
                             <i class="fa-solid fa-check text-gray-500 icono-voto text-lg"></i>
                             <div class="truncate flex items-baseline gap-2">
-                                <span class="font-mono text-xs tracking-widest text-gray-400 uppercase">Prefiero:</span>
+                                <span class="font-mono text-xs tracking-widest text-gray-400 uppercase">PREFIERO:</span>
                                 <span id="btn-text-b" class="text-white fuente-zelda tracking-wider text-xl" style="text-shadow: 1px 1px 3px rgba(0,0,0,1);">Canción B</span>
                             </div>
                         </button>
@@ -212,8 +226,8 @@
                 </div>
             </div>
 
-            <!-- Botón Saltar -->
-            <div class="mt-12 w-full flex justify-center">
+            <!-- Botón Saltar con Delay -->
+            <div id="btn-saltar" class="mt-12 w-full flex justify-center">
                 <button onclick="cargarNuevasCanciones()" class="bg-transparent hover:bg-gray-900 text-gray-400 hover:text-white px-8 py-3 border border-gray-700 transition-colors text-sm font-mono tracking-widest flex items-center gap-2 uppercase hover-boton">
                     <i class="fa-solid fa-forward-step"></i> No conozco ambas / Saltar
                 </button>
@@ -227,7 +241,6 @@
                 </h2>
             </div>
             <div class="p-0 overflow-y-auto flex-grow" id="lista-ranking-panel">
-                <!-- Se llena con JS automáticamente con cada voto -->
             </div>
             <div class="p-3 border-t border-gray-800 bg-black flex justify-between items-center">
                 <p class="text-[10px] text-gray-500 font-mono">ESTADÍSTICAS GLOBALES</p>
@@ -239,7 +252,6 @@
 
     </div>
 
-    <!-- Menú Mensaje Genérico -->
     <div id="modal-mensaje" class="modal-hidden fixed inset-0 bg-black bg-opacity-90 z-[60] flex justify-center items-center p-4">
         <div class="bg-[#000] border-2 border-sheikah w-full max-w-sm flex flex-col shadow-[0_0_30px_rgba(66,245,245,0.3)]">
             <div class="p-4 border-b border-gray-800 bg-sheikah-dark text-center">
@@ -254,7 +266,6 @@
         </div>
     </div>
 
-    <!-- Menú Confirmar Borrado -->
     <div id="modal-confirmacion" class="modal-hidden fixed inset-0 bg-black bg-opacity-90 z-[60] flex justify-center items-center p-4">
         <div class="bg-black border-2 border-red-800 w-full max-w-sm flex flex-col shadow-[0_0_30px_rgba(255,0,0,0.2)]">
             <div class="p-4 border-b border-red-900 bg-red-900 bg-opacity-20 text-center">
@@ -274,7 +285,6 @@
         </div>
     </div>
 
-    <!-- Reproductor Inferior -->
     <div id="reproductor-barra" class="hidden fixed bottom-0 left-0 w-full bg-black border-t-2 border-sheikah p-3 z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.9)]">
         <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center gap-4 px-2 md:px-6">
             
@@ -289,7 +299,7 @@
 
             <div class="w-full flex-grow flex items-center gap-3">
                 <button onclick="togglePlayBarra()" class="text-white hover:text-sheikah-blue transition-transform text-xl w-8 hover:scale-110 hover-boton">
-                    <i id="icono-barra-play" class="fa-solid fa-pause"></i>
+                    <i id="icono-barra-play" class="fa-solid fa-play"></i>
                 </button>
                 
                 <span id="tiempo-actual" class="text-xs text-gray-400 font-mono w-10 text-right">0:00</span>
@@ -568,6 +578,27 @@
             document.getElementById('cat-b').innerText = cancionB_actual.categoria;
             document.getElementById('img-b').src = cancionB_actual.portada;
             document.getElementById('btn-text-b').innerText = cancionB_actual.titulo;
+
+            // Disparador mágico para reiniciar animaciones
+            const cardA = document.getElementById('card-a-container');
+            const cardB = document.getElementById('card-b-container');
+            const btnA = document.getElementById('btn-voto-a');
+            const btnB = document.getElementById('btn-voto-b');
+            const vsBadge = document.getElementById('vs-badge');
+            const btnSaltar = document.getElementById('btn-saltar');
+
+            // Quitar clases
+            cardA.classList.remove('anim-l'); cardB.classList.remove('anim-r');
+            btnA.classList.remove('anim-delay'); btnB.classList.remove('anim-delay');
+            vsBadge.classList.remove('anim-delay-badge'); btnSaltar.classList.remove('anim-delay');
+
+            // Forzar reflow (Resetear el reloj del navegador)
+            void cardA.offsetWidth;
+
+            // Poner clases otra vez
+            cardA.classList.add('anim-l'); cardB.classList.add('anim-r');
+            btnA.classList.add('anim-delay'); btnB.classList.add('anim-delay');
+            vsBadge.classList.add('anim-delay-badge'); btnSaltar.classList.add('anim-delay');
         }
 
         function calcularElo(eloGanador, eloPerdedor) {
@@ -599,7 +630,6 @@
             actualizarRankingUI();
         }
 
-        // Iniciar página
         actualizarContadores();
         cargarNuevasCanciones();
         actualizarRankingUI();
